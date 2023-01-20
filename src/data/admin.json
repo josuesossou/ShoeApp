@@ -1,0 +1,89 @@
+{
+    "sidebarLinks": [
+        {
+            "label": "Orders",
+            "action": "orders",
+            "searchable": true
+        },
+        {
+            "label": "Products",
+            "action": "products",
+            "searchable": true
+        },
+        {
+            "label": "Purchases",
+            "action": "purchases",
+            "searchable": true
+        },
+        {
+            "label": "Users",
+            "action": "users",
+            "searchable": true
+        },
+        {
+            "label": "Product Reviews",
+            "action": "productReviews",
+            "searchable": true
+        }
+    ],
+    "tabLinks": {
+        "orders": [
+            {
+                "label": "All",
+                "action": "allOrders"
+            },
+            {
+                "label": "New",
+                "action": "newOrders"
+            },
+            {
+                "label": "Fulfilled",
+                "action": "fulfilledOrders"
+            },
+            {
+                "label": "Issues",
+                "action": "issuesOrders"
+            },
+            {
+                "label": "Refunded",
+                "action": "refundedOrders"
+            }
+        ],
+        "products": [
+            {
+                "label": "All",
+                "action": "allProducts"
+            },
+            {
+                "label": "Showcase",
+                "action": "showcaseProduct"
+            },
+            {
+                "label": "Featured",
+                "action": "feaaturedProducts"
+            },
+            {
+                "label": "Order Now",
+                "action": "ordernowProducts"
+            }
+        ],
+        "purchases": [
+            {
+                "label": "All",
+                "action": "allPurchases"
+            }
+        ],
+        "users": [
+            {
+                "label": "All",
+                "action": "allUsers"
+            }
+        ],
+        "productReviews": [
+            {
+                "label": "All",
+                "action": "allReviews"
+            }
+        ]
+    }
+}

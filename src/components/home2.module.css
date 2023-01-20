@@ -1,0 +1,25 @@
+.home {
+    /* display: grid;
+    grid-template-columns: 1fr; */
+    /* grid-auto-flow: column; repeat(2, 1fr)*/
+    /* grid-template-areas:  
+        'header'
+        'sections'
+        'bottom'; */
+    grid-area: main;
+    height: 100vh;
+}
+
+.home > * + * {
+    background-color: aliceblue;
+    /* grid-template-areas: sections */
+    height: 100%;
+}
+.hm_img {
+    height: 100%;
+    display: flex;
+}
+.hm_img > * {
+    margin: auto auto;
+    margin: auto auto;
+}
