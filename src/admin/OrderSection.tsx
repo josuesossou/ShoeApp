@@ -14,7 +14,7 @@ export default function OrderSection() {
     }
 
     return (
-        <Grid container alignItems='center' justifyContent='space-between'>
+        <Grid container>
             <Grid item xs={9}>
                 <DynamicTab 
                     orientation="horizontal" 
