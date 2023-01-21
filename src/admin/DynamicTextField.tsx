@@ -1,5 +1,5 @@
-import { Paper, TextField } from "@mui/material";
-import { ChangeEventHandler } from "react";
+import { Divider, IconButton, InputBase, Paper } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search"
 
 type PropsType = {
     setQuery: any
@@ -9,16 +9,21 @@ export default function DynamicTextField({ setQuery }: PropsType) {
     return (
         <Paper
             component="form"
-            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+            elevation={0}
+            sx={{ pl: '.9em', pr: '.1em', display: 'flex', alignItems: 'center'}}
         >
-            <TextField 
-                variant="standard"
-                label='Search' 
-                aria-label="search" 
+            <InputBase 
+                aria-label='search' 
+                placeholder={``}
                 fullWidth multiline 
                 onChange={setQuery}
                 autoComplete=''
+                inputProps={{ 'aria-label': 'search google maps' }}
             />
+            <Divider orientation="vertical"  sx={{  height: 'auto', alignSelf: 'stretch'}} />
+            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                <SearchIcon />
+            </IconButton>
         </Paper>
     )
 }

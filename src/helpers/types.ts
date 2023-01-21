@@ -17,7 +17,7 @@ type Price = {
 }
 
 type TypeofProduct = {
-    value: 'commingSoon' | 'orderNow' | 'linked', // values cna only be 'commmingSoon' | 'orderNOw' | 'linked'
+    value: 'commingSoon' | 'orderNow' | 'linked' | 'disabled', // values cna only be 'commmingSoon' | 'orderNOw' | 'linked'
     price: Price,
     link: string
 }
