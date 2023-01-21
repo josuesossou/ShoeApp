@@ -10,25 +10,25 @@ type PropsType = {
 }
 
 
-export default function ProductSection() {
-    const products = useContext(AdminContext)?.products || []
-    const [productValue, setProductValue] = useState<Action>(products[0])
+export default function UserSection() {
+    const users = useContext(AdminContext)?.users || []
+    const [userValue, setuserValue] = useState<Action>(users[0])
 
     return (
         <Grid container >
             <Grid item xs={10}>
                 <DynamicTab 
                     orientation="horizontal" 
-                    setValue={setProductValue}
-                    tabs={products} 
-                    value={productValue}
+                    setValue={setuserValue}
+                    tabs={users} 
+                    value={userValue}
                 />
             </Grid>
             <Grid item xs={2}>
                 <Input aria-label="search" fullWidth />
             </Grid>      
             <Grid item xs={12} py={4}>
-                {productValue.label}
+                {userValue.label}
             </Grid>
         </Grid>
     )

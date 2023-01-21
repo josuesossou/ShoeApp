@@ -31,15 +31,19 @@ export type Action = {
 
 export type AdminData = {
     sidebarLinks: Action[],
-    tabLinks: {
-        orders: Action[],
-        products: Action[],
-        purchases: Action[],
-        users: Action[],
-        productReviews: Action[]
-    }
+    orders: Action[],
+    products: Action[],
+    purchases: Action[],
+    users: Action[],
+    productReviews: Action[]
 }
 
+// sidebarLinks,
+// orders,
+// productReviews,
+// products,
+// purchases,
+// users
 
 
 // =========================DATABASE DATA TYPES======================

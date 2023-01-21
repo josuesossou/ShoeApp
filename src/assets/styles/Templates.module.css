@@ -1,7 +1,7 @@
 .wrapper {
     /* height: 100vh; */
     min-height: 100%;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:  

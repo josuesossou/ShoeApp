@@ -1,30 +1,28 @@
 import { GetStaticProps } from 'next';
-import AdminPage from '../src/admin/adminPage';
+import AdminPage from '../src/admin/AdminPage';
 import Navbar from '../src/components/navbar/Navbar';
-import { getSideNavAdminData, getTabLinks } from '../src/helpers/getLocalData';
+import { getAdminData } from '../src/helpers/getLocalData';
+import { AdminData } from '../src/helpers/types';
 import Wrapper from '../src/templates/page_wrapper';
 
-export default function Admin() {
+type PropsType = {
+    adminData: AdminData
+}
+export default function Admin({ adminData }: PropsType) {
   return (
     <Wrapper>
         <Navbar />
-        <AdminPage />
+        <AdminPage adminData={adminData}/>
     </Wrapper>
   )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-    const sideNavAdminData = getSideNavAdminData()
-    const { orders, products, productReviews, purchases, users } = getTabLinks()
+    const adminData = getAdminData()
 
     return {
         props: {
-            sideNavAdminData,
-            orders,
-            products,
-            productReviews,
-            purchases,
-            users
+            adminData
         }
     }
 }

@@ -1,12 +1,20 @@
 import * as localAdminData from '../data/admin.json'
-import { AdminData } from './types'
+import { Action, AdminData } from './types'
 
-const adminData: AdminData = localAdminData
+const adminData = localAdminData
 
-export const getSideNavAdminData = () => {
-    return adminData.sidebarLinks
-}
+export function getAdminData():AdminData {
+    const { sidebarLinks, tabLinks} = adminData
+    const { orders, productReviews, products, purchases, users } = tabLinks
 
-export const getTabLinks = () => {
-    return adminData.tabLinks
+    const data: AdminData = {
+        sidebarLinks,
+        orders,
+        products,
+        purchases,
+        users,
+        productReviews
+    }
+    
+    return data
 }
