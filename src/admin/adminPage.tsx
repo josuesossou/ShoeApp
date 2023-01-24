@@ -2,6 +2,7 @@ import { Box, Button, Grid } from "@mui/material";
 import { useState } from "react";
 import { AdminContext, SideBarNavContext } from "../contexts/adminPageContext";
 import { Action, AdminData } from "../helpers/types";
+import AddProductForm from "./AddProductForm";
 import MainSection from "./MainSection";
 import SideNav from "./SideNav";
 
@@ -11,13 +12,17 @@ type PropsType = {
 
 export default function AdminPage({ adminData }: PropsType) {
     const [sidebarLinkValue, setSidebarLinkValue] = useState<Action>(adminData.sidebarLinks[0])
+    const [showAddProductForm, toggleShowAddProductForm] = useState<boolean>(false)
+    const addNewProductHandler = () => {
+        toggleShowAddProductForm(!showAddProductForm)
+    }
 
     return (
         <AdminContext.Provider value={adminData}>
             <SideBarNavContext.Provider value={sidebarLinkValue}>
                 <Grid container marginTop='4em'>
                     <Grid item xs={12} p={4}>
-                        <Grid xs={10} container justifyContent='space-between' 
+                        <Grid container justifyContent='space-between' 
                             alignItems='center' ml='auto'
                             minHeight={46}
                         >
@@ -25,7 +30,9 @@ export default function AdminPage({ adminData }: PropsType) {
 
                             <Grid item>
                                 {sidebarLinkValue.action === 'products' && 
-                                    <Button variant="outlined">
+                                    <Button variant="outlined"
+                                        onClick={addNewProductHandler}
+                                    >
                                         Add New Product
                                     </Button>
                                 }
@@ -36,7 +43,10 @@ export default function AdminPage({ adminData }: PropsType) {
                         <SideNav setSidebarLinkValue={setSidebarLinkValue} />
                     </Grid>
                     <Grid item xs={10} pr={4} pl={2}>
-                        <MainSection />
+                        {showAddProductForm? (
+                            <AddProductForm />
+                        ): (<MainSection />)}
+                        
                     </Grid>
                 </Grid>
             </SideBarNavContext.Provider>

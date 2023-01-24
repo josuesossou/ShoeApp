@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from '../assets/styles/Templates.module.css'
+import styles from '../assets/styles/Templates.module.scss'
 import { Orbitron } from '@next/font/google'
 
 const orbitron = Orbitron({ subsets: ['latin'] })

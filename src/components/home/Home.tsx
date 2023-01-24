@@ -1,4 +1,4 @@
-import styles from '../../assets/styles/Components.module.css'
+import styles from '../../assets/styles/Components.module.scss'
 import image1 from '../../assets/images/shoe12x.png'
 import image2 from '../../assets/images/shoe4.png'
 import image3 from '../../assets/images/shoe2.png'

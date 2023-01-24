@@ -1,35 +1,35 @@
-// ==========================HELPER TYPES=======================
-type SideImage = {
+// ==========================HELPER INTERFACES=======================
+interface SideImage {
     solid: true,
     solidImage: string,
     fgImage: string,
     bgImage: string
 }
-type Featured = {
+interface Featured {
     isFeatured: boolean,
     parallax: 'zoomIn' | 'zoomOut' | 'normal', // values can only be 'zoomIn', 'zoomOut', 'normal'
     pageOrder: number // order to be shown on the page
 }
 
-type Price = {
+interface Price {
     whole: number, // example $99.75 becomes whole: 99 decimal 75
     decimal: number
 }
 
-type TypeofProduct = {
-    value: 'commingSoon' | 'orderNow' | 'linked' | 'disabled', // values cna only be 'commmingSoon' | 'orderNOw' | 'linked'
-    price: Price,
-    link: string
-}
+// interface interfaceofProduct {
+//     value: 'commingSoon' | 'orderNow' | 'linked' | 'unPublished', // values cna only be 'commmingSoon' | 'orderNOw' | 'linked'
+//     price: Price,
+//     link: string
+// }
 
-// =========================FRONTEND UI TYPES=======================
-export type Action = {
+// =========================FRONTEND UI INTERFACES=======================
+export interface Action {
     label: string,
     action: string,
     searchable?: boolean
 }
 
-export type AdminData = {
+export interface AdminData {
     sidebarLinks: Action[],
     orders: Action[],
     products: Action[],
@@ -46,9 +46,9 @@ export type AdminData = {
 // users
 
 
-// =========================DATABASE DATA TYPES======================
+// =========================DATABASE DATA INTERFACES======================
 /// issues for orders
-export type Issue = {
+export interface Issue {
     id: string,
     userId: string,
     orderId: string,
@@ -58,32 +58,36 @@ export type Issue = {
 }
 
 // can be updated
-export type Product = {
+export interface Product {
     id: string,
     tag: string,
     name: string,
-    solid: boolean,
+    isSolid: boolean,
     solidImage: string,
     fgImageUrl: string,
     bgImageUrl: string,
-    sideImages: SideImage[],
-    featured: Featured,
+    sideImages: string[],
+    price: Price,
+    isFeatured: boolean,
+    parallax: 'zoomIn' | 'zoomOut' | 'normal' | null, // values can only be 'zoomIn', 'zoomOut', 'normal'
+    featuredOrder: number | null, // order to be shown on the page
     showcase: boolean,
-    type: TypeofProduct, // shows the price
+    type: 'comingSoon' | 'orderNow' | 'linked' | 'unPublished', // values cna only be 'commmingSoon' | 'orderNOw' | 'linked'
+    link: string | null,
     description: string,
     createdAt: string, // actual date time in string
     dateTime: number, // date time in mili second
-    timezome: string,
+    timeZone: string,
     rating: number
 }
 
 // can be updated. order is created after a purchase was made
-export type Order = {
+export interface Order {
     id: string,
     userId: string,
     productId: string,
     purchaseId: string,
-    type: 'new' | 'fulfilled' | 'issue' | 'refunded',
+    interface: 'new' | 'fulfilled' | 'issue' | 'refunded',
     sendTo: string, // address to send the package to
     createdAt: string,
     dateTime: number,
@@ -95,7 +99,7 @@ export type Order = {
 }
 
 // can't be modified, only Read and Write once. Verifies that the user paid for the product
-export type Purchase = {
+export interface Purchase {
     id: string,
     tag: string,
     userId: string,
@@ -107,17 +111,17 @@ export type Purchase = {
     location?: string,
 }
 
-export type User = {
+export interface User {
     id: string,
     first: string,
     last: string,
     fullName: string, // searchable, since it's only lowercased
     email: string,
-    accountType: string,
+    accountinterface: string,
     profileImage: string,
 }
 
-export type Review = {
+export interface Review {
     id: string,
     userId: string,
     userFullName: string,

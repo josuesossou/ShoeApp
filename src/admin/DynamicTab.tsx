@@ -1,7 +1,7 @@
 import { Tabs, Tab } from "@mui/material";
 import { useState } from "react";
 import { Action } from "../helpers/types";
-import styles from '../assets/styles/TabIndicator.module.css'
+import styles from '../assets/styles/TabIndicator.module.scss'
 
 type PropsType = {
     tabs: Action[],

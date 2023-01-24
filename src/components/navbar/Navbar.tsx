@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import MenuIcon from '@mui/icons-material/Menu';
-import styles from '../../assets/styles/Components.module.css'
+import styles from '../../assets/styles/Components.module.scss'
 import Logo from '../../assets/images/logo/Logo.png'
 import NameLogo from '../../assets/images/logo/Name-logo.png'
 

@@ -47,37 +47,34 @@ export const generateProductData = (amount:number) => {
     let products: Product[] = []
 
     for (let i=0; i < amount; i++) {
-        let solid = getRandomFromList([false, true])
-        let featured = getRandomFromList([false, true])
-        let showcase = getRandomFromList([false, true])
-        let type: 'commingSoon' | 'orderNow' | 'linked' | 'disabled' = getRandomFromList(['commingSoon', 'orderNow', 'linked', 'disabled'])
+        const bools = [false, true]
+        let solid = getRandomFromList(bools)
+        let featured = getRandomFromList(bools)
+        let showcase = getRandomFromList(bools)
+        let type: 'comingSoon' | 'orderNow' | 'linked' | 'unPublished' = getRandomFromList(['comingSoon', 'orderNow', 'linked', 'unPublished'])
         let parallax: 'zoomIn' | 'zoomOut' | 'normal' = getRandomFromList(['zoomIn', 'zoomOut', 'normal'])
         let date = new Date()
         const product:Product = {
             id: i.toString(),
             tag: i.toString(),
-            solid,
+            isSolid: solid,
             solidImage: solid? '':'',
             bgImageUrl: !solid? '':'',
             fgImageUrl: !solid? '':'',
             sideImages: [],
-            featured: {
-                isFeatured: featured,
-                pageOrder: 2,
-                parallax 
-            },
+            isFeatured: featured,
+            featuredOrder: 2,
+            parallax,
             showcase, 
-            type: {
-                value: type,
-                link: '',
-                price: getRandomPrice()
-            },
+            type,
+            link: null,
+            price: getRandomPrice(),
             description: 'lorem',
             createdAt: date.toLocaleTimeString() + ' ' + date.toLocaleDateString(),
             dateTime: date.getMilliseconds(),
             name: getRandomName(),
             rating: getRandomFromList([1,2,3,4,5]),
-            timezome: Intl.DateTimeFormat().resolvedOptions().timeZone
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
         }
         products.push(product)
     }

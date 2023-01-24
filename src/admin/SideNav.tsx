@@ -2,6 +2,9 @@ import { useContext, useState } from "react";
 import { AdminContext, SideBarNavContext } from "../contexts/adminPageContext";
 import { Action, AdminData } from "../helpers/types";
 import DynamicTab from "./DynamicTab";
+import styles from '../assets/styles/AdminComponents.module.scss'
+import { Divider } from "@mui/material";
+
 
 type PropsType = {
     setSidebarLinkValue: Function
@@ -12,7 +15,7 @@ export default function SideNav({ setSidebarLinkValue }: PropsType) {
     const value = useContext(SideBarNavContext) || sideNavLinks[0]
 
     return (
-        <>
+        <section className={styles.sideNav}>
             <DynamicTab 
                 tabs={sideNavLinks} 
                 orientation="vertical"
@@ -20,6 +23,6 @@ export default function SideNav({ setSidebarLinkValue }: PropsType) {
                 setValue={setSidebarLinkValue}
                 hideIndicator
             />
-        </>
+        </section>
     )
 }

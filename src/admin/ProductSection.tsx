@@ -77,7 +77,7 @@ const ProductDetails = ({ product }: ProductDetailsPropsType) => {
         <Paper>
             <h2>{product.name}</h2>
             <p>{product.dateTime}</p>
-            <p>{product.type.value}</p>
+            <p>{product.type}</p>
             <Button variant="outlined">
                 Edit
             </Button>
@@ -94,11 +94,11 @@ export default function ProductSection() {
     const rows = productsData.map(product => ({
         id: product.tag,
         name: product.name,
-        solid: product.solid? 'yes' : 'no',
-        featured: product.featured.isFeatured? 'yes' : 'no',
+        solid: product.isSolid? 'yes' : 'no',
+        featured: product.isFeatured? 'yes' : 'no',
         showcase: product.showcase? 'yes' : 'no',
-        type: product.type.value,
-        price: '$' + (product.type.price.whole + (product.type.price.decimal*0.01)),
+        type: product.type,
+        price: '$' + (product.price.whole + (product.price.decimal*0.01)),
         rating: product.rating,
         createdAt: product.createdAt
     }))
