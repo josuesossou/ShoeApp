@@ -52,7 +52,7 @@ export const generateProductData = (amount:number) => {
         let featured = getRandomFromList(bools)
         let showcase = getRandomFromList(bools)
         let type: 'comingSoon' | 'orderNow' | 'linked' | 'unPublished' = getRandomFromList(['comingSoon', 'orderNow', 'linked', 'unPublished'])
-        let parallax: 'zoomIn' | 'zoomOut' | 'normal' = getRandomFromList(['zoomIn', 'zoomOut', 'normal'])
+        let parallax: 'zoomIn' | 'zoomOut' | 'normal' | 'none' = getRandomFromList(['zoomIn', 'zoomOut', 'normal', 'none'])
         let date = new Date()
         const product:Product = {
             id: i.toString(),

@@ -91,7 +91,7 @@ body {
 body {
   color: rgb(var(--foreground-rgb));
   background: radial-gradient(
-    #ffffff 20%, 60%, #dcdcdc
+    #ffffff 20%, 60%, #efefef
     ) no-repeat fixed;
 }
 

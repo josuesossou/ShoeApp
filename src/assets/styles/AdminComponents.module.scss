@@ -2,10 +2,17 @@
     width: 60%;
     margin: 0 auto;
     background-color: transparent;
+
+    form > section {
+        margin-bottom: 3em;
+    }
+    h3 {
+        margin: 1em 0;
+    }
 }
 
 .sideNav {
-    border-right: 1px solid black;
+    border-right: 2px solid black;
     min-height: 50vh;
 
 }

@@ -69,11 +69,11 @@ export interface Product {
     sideImages: string[],
     price: Price,
     isFeatured: boolean,
-    parallax: 'zoomIn' | 'zoomOut' | 'normal' | null, // values can only be 'zoomIn', 'zoomOut', 'normal'
+    parallax: 'zoomIn' | 'zoomOut' | 'normal' | 'none', // values can only be 'zoomIn', 'zoomOut', 'normal'
     featuredOrder: number | null, // order to be shown on the page
     showcase: boolean,
     type: 'comingSoon' | 'orderNow' | 'linked' | 'unPublished', // values cna only be 'commmingSoon' | 'orderNOw' | 'linked'
-    link: string | null,
+    link?: string | null,
     description: string,
     createdAt: string, // actual date time in string
     dateTime: number, // date time in mili second

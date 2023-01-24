@@ -17,7 +17,7 @@ export default function DynamicDataTable({ columns, rows, cellHandler }: PropsTy
             rowsPerPageOptions={[10, 20, 50]}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             onCellClick={cellHandler}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', border: '0px solid' }}
             pagination
             autoHeight       
         />
