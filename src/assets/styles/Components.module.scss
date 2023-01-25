@@ -56,16 +56,26 @@
 
 /* Navbar Styles */
 .nav {
-    height: 4em;
-    box-shadow: 0 1px 10px 0px rgba(0,0,0,0.3);
-    background: rgba(255, 255, 255, 1);
-    backdrop-filter: blur(7px);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
+
+    // display: flex;
+    // flex-direction: row;
+    // align-items: center;
+    // justify-content: space-around;
     z-index: 100;
-    position: fixed;
+    position: relative;
     width: 100%;
     grid-area: nav; 
+
+    > div {
+        min-height: 5em;
+        box-shadow: 0 1px 10px 0px rgba(0,0,0,0.3);
+        background: rgba(255, 255, 255, 1);
+        backdrop-filter: blur(7px);
+
+        button {
+            font-family: inherit;
+            color: black;
+        }
+    }
+
 }

@@ -59,7 +59,7 @@ export interface Issue {
 
 // can be updated
 export interface Product {
-    id: string,
+    productId: string,
     tag: string,
     name: string,
     isSolid: boolean,

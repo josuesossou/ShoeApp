@@ -27,7 +27,7 @@ export default function AdminPage({ adminData }: PropsType) {
     return (
         <AdminContext.Provider value={adminData}>
             <SideBarNavContext.Provider value={sidebarLinkValue}>
-                <Grid container marginTop='4em' >
+                <Grid container >
                     <Grid item xs={12} p={4}>
                         <Grid container item justifyContent='space-between' 
                             alignItems='center' ml='auto'
