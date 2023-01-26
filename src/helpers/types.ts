@@ -59,24 +59,24 @@ export interface Issue {
 
 // can be updated
 export interface Product {
-    productId: string,
+    id?: string,
     tag: string,
     name: string,
     isSolid: boolean,
-    solidImage: string,
+    solidImageUrl: string,
     fgImageUrl: string,
     bgImageUrl: string,
     sideImages: string[],
     price: Price,
     isFeatured: boolean,
-    parallax: 'zoomIn' | 'zoomOut' | 'normal' | 'none', // values can only be 'zoomIn', 'zoomOut', 'normal'
-    featuredOrder: number | null, // order to be shown on the page
+    parallax?: 'zoomIn' | 'zoomOut' | 'normal' | 'none', // values can only be 'zoomIn', 'zoomOut', 'normal'
+    featuredOrder?: number | string, // order to be shown on the page
     showcase: boolean,
     type: 'comingSoon' | 'orderNow' | 'linked' | 'unPublished', // values cna only be 'commmingSoon' | 'orderNOw' | 'linked'
-    link?: string | null,
+    link?: string,
     description: string,
-    createdAt: string, // actual date time in string
-    dateTime: number, // date time in mili second
+    createdAt?: any, // actual date time in string
+    dateTime: string, // date time in mili second
     timeZone: string,
     rating: number
 }

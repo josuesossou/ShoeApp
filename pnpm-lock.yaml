@@ -14,6 +14,7 @@ specifiers:
   '@types/react-dom': 18.0.10
   eslint: 8.30.0
   eslint-config-next: 13.1.1
+  nanoid: ^4.0.0
   next: 13.1.1
   react: 18.2.0
   react-dom: 18.2.0
@@ -35,6 +36,7 @@ dependencies:
   '@types/react-dom': 18.0.10
   eslint: 8.30.0
   eslint-config-next: 13.1.1_lzzuuodtsqwxnvqeq4g4likcqa
+  nanoid: 4.0.0
   next: 13.1.1_3duxcpitbtplz62feflag7fwby
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
@@ -2062,6 +2064,12 @@ packages:
   /nanoid/3.3.4:
     resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+    dev: false
+
+  /nanoid/4.0.0:
+    resolution: {integrity: sha512-IgBP8piMxe/gf73RTQx7hmnhwz0aaEXYakvqZyE302IXW3HyVNhdNGC+O2MwMAVhLEnvXlvKtGbtJf6wvHihCg==}
+    engines: {node: ^14 || ^16 || >=18}
     hasBin: true
     dev: false
 

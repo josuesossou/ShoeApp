@@ -55,10 +55,10 @@ export const generateProductData = (amount:number) => {
         let parallax: 'zoomIn' | 'zoomOut' | 'normal' | 'none' = getRandomFromList(['zoomIn', 'zoomOut', 'normal', 'none'])
         let date = new Date()
         const product:Product = {
-            id: i.toString(),
+            // id: i.toString(),
             tag: i.toString(),
             isSolid: solid,
-            solidImage: solid? '':'',
+            solidImageUrl: solid? '':'',
             bgImageUrl: !solid? '':'',
             fgImageUrl: !solid? '':'',
             sideImages: [],
@@ -67,11 +67,9 @@ export const generateProductData = (amount:number) => {
             parallax,
             showcase, 
             type,
-            link: null,
             price: getRandomPrice(),
             description: 'lorem',
-            createdAt: date.toLocaleTimeString() + ' ' + date.toLocaleDateString(),
-            dateTime: date.getMilliseconds(),
+            dateTime: date.toLocaleTimeString() + ' ' + date.toLocaleDateString(),
             name: getRandomName(),
             rating: getRandomFromList([1,2,3,4,5]),
             timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone

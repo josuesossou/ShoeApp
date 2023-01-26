@@ -1,11 +1,15 @@
-import { Box, Button, Checkbox, Divider, FormControl, FormLabel, Grid, Input, MenuItem, Paper, Select, TextField } from "@mui/material";
-import { ChangeEvent, FormEvent, useReducer } from "react";
+
 import styles from '../assets/styles/AdminComponents.module.scss'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-import AddIcon from "@mui/icons-material/Add";
 import Image from "next/image";
+import AddIcon from "@mui/icons-material/Add";
+import { Box, Button, Checkbox, Divider, FormControl, FormLabel, Grid, Input, MenuItem, Paper, Select, TextField } from "@mui/material";
+import { ChangeEvent, FormEvent, useReducer } from "react";
 import { lenghtToArray } from "../helpers/helpers";
 import { Product } from "../helpers/types";
+import { addProduct, uploadImage, uploadImages } from "../helpers/api";
+import { nanoid } from 'nanoid';
+import { Description } from '@mui/icons-material';
 
 const UPDATE_NAME = 'update name'
 const UPDATE_IS_FEATURED = 'update isfeatured'
@@ -21,6 +25,7 @@ const UPDATE_BACKGROUND_IMAGE = 'update background image'
 const UPDATE_SOLID_IMAGE = 'update solid image'
 const UPDATE_SIDE_IMAGES = 'update side images'
 const UPDATE_HIDE_PRICE = 'update hide price'
+const UPDATE_DESCRIPTION = 'update description'
 
 // name: string,
 // isFeatured: boolean,
@@ -52,6 +57,7 @@ interface FormValue<T> {
 
 interface State {
     name: FormValue<string>,
+    description: FormValue<string>,
     isFeatured: boolean,
     parallax?: FormValue<'zoomIn' | 'zoomOut' | 'normal' | 'none'>,
     featuredOrder?: FormValue<string>,
@@ -59,10 +65,10 @@ interface State {
     isSeparate: boolean, // for isSolid Image 
     type: FormValue<'comingSoon' | 'orderNow' | 'linked' | 'unPublished'>,
     link?: FormValue<string>,
-    fgImage: FormValue<HTMLInputElement | null>,
-    bgImage: FormValue<HTMLInputElement | null>,
-    solidImage: FormValue<HTMLInputElement | null>,
-    sideImages: FormValue<HTMLInputElement | null>,
+    fgImage: FormValue<FileList | null>,
+    bgImage: FormValue<FileList | null>,
+    solidImage: FormValue<FileList | null>,
+    sideImages: FormValue<FileList | null>,
     price: FormValue<number>,
     hidePrice?: boolean
 }
@@ -77,6 +83,8 @@ function reducer(state:State, action: Action): State {
     switch (action.type) {
         case UPDATE_NAME:
             return { ...state, name: action.value };
+        case UPDATE_DESCRIPTION:
+            return { ...state, description: action.value };
         case UPDATE_IS_FEATURED:
             return { ...state, isFeatured: action.value };
         case UPDATE_PARALLAX:
@@ -122,6 +130,7 @@ const defaultValueNumber: FormValue<number> = {
 
 const initialState: State = {
     name: defaultValueString,
+    description:defaultValueString,
     isFeatured: false,
     showcase: false,
     isSeparate: false,
@@ -178,6 +187,7 @@ export default function AddProductForm() {
     const [state, dispatch] = useReducer(reducer, initialState)
     const {
         name,
+        description,
         isFeatured,
         parallax,
         featuredOrder,
@@ -288,11 +298,48 @@ export default function AddProductForm() {
 
         if (error) return
 
-        // const product: Product = {
+        const solidImageName = `${name.value}-main-solid`
+        const fgImageName = `${name.value}-main-fg`
+        const bgImageName = `${name.value}-main-bg`
+        const sideImagesName = `${name.value}-side`
+        const priceVal = price.value.toString().split(/\D/)
+        const date = new Date()
 
+        // Uploading images first
+        // if (isSeparate) {
+        //     uploadImage(fgImage.value!, fgImageName)
+        //     uploadImage(bgImage.value!, bgImageName)
+        // } else {
+        //     uploadImage(solidImage.value!, solidImageName)
         // }
-
         
+        // if (sideImages.value) uploadImages(sideImages.value, sideImagesName)
+
+        // constructing product data
+        const product: Product = {
+            tag: nanoid(8),
+            name: name.value,
+            description: description.value,
+            isSolid: !isSeparate,
+            solidImageUrl: solidImageName,
+            fgImageUrl: fgImageName,
+            bgImageUrl: bgImageName,
+            price: {
+                whole: parseInt(priceVal[0]),
+                decimal: parseInt(priceVal[1]) || 0
+            },
+            type: type.value,
+            sideImages: lenghtToArray(sideImages.value?.length || 0).map(i => `${sideImagesName}-${i}`),
+            parallax: parallax?.value,
+            featuredOrder: featuredOrder?.value!,
+            isFeatured,
+            showcase,
+            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            rating: 5,
+            dateTime: date.toLocaleTimeString() + ' ' + date.toLocaleDateString(),
+        }
+
+        addProduct(product)
     }
 
     const onChangeHandler = (
@@ -301,11 +348,10 @@ export default function AddProductForm() {
     ) => {
         if (inputType === 'checkbox')
             return dispatch({ type, value: event.target.checked })
-
-        if (inputType === 'file') {
-            return dispatch({ type, value: { value: event.target, error: false } })
-        }
-
+        console.log(event.target.files)
+        if (inputType === 'file')
+            return dispatch({ type, value: { value: event.target.files, error: false } })
+        
         return dispatch({ type, value: { value: event.target.value, error: false } })
     }
 
@@ -329,6 +375,25 @@ export default function AddProductForm() {
                         aria-errormessage={name.errorMessage}
                         helperText={name.errorMessage}
                         onChange={(e) => onChangeHandler(e, UPDATE_NAME)}
+                    />
+                </section>
+
+                <section>
+                    <h2>Description</h2>
+                    <LineDivider />
+
+                    <TextField 
+                        id='desc'
+                        label='Description'
+                        fullWidth
+                        size="small"
+                        value={description.value}
+                        error={description.error}
+                        aria-errormessage={description.errorMessage}
+                        helperText={name.errorMessage}
+                        onChange={(e) => onChangeHandler(e, UPDATE_DESCRIPTION)}
+                        multiline
+                        rows={4}
                     />
                 </section>
 
@@ -417,12 +482,12 @@ export default function AddProductForm() {
                                     value={fgImage.value} 
                                 />
                                 <br />
-                                {fgImage.value?.files && 
+                                {fgImage.value && 
                                     <Box width='10em' 
                                         sx={{ width: '10em', height: '10em', position: 'relative'}}
                                     >
                                         <Image 
-                                            src={getFileURL(fgImage.value.files[0])} 
+                                            src={getFileURL(fgImage.value[0])} 
                                             alt='image' 
                                             fill
                                             style={{ objectFit: 'cover'}}
@@ -439,12 +504,12 @@ export default function AddProductForm() {
                                     value={bgImage.value}
                                 />
                                 <br />
-                                {bgImage.value?.files && 
+                                {bgImage.value && 
                                     <Box width='10em' 
                                         sx={{ maxWidth: '10em', flex: 1, height: '10em', position: 'relative'}}
                                     >
                                         <Image 
-                                            src={getFileURL(bgImage.value.files[0])} 
+                                            src={getFileURL(bgImage.value[0])} 
                                             alt='image' 
                                             fill
                                             style={{ objectFit: 'cover'}}
@@ -462,12 +527,12 @@ export default function AddProductForm() {
                                 value={solidImage.value}  
                             />
                             <br />
-                            {solidImage.value?.files && 
+                            {solidImage.value && 
                                 <Box width='10em' 
                                     sx={{ width: '10em', height: '10em', position: 'relative'}}
                                 >
                                     <Image 
-                                        src={getFileURL(solidImage.value.files[0])} 
+                                        src={getFileURL(solidImage.value[0])} 
                                         alt='image' 
                                         fill
                                         style={{ objectFit: 'cover'}}
@@ -493,12 +558,12 @@ export default function AddProductForm() {
                             />
                             <br />
                             <Grid container flexDirection={'row'} gap={2}>
-                                {sideImages.value?.files && 
-                                    lenghtToArray(sideImages.value.files.length).map(i => (
+                                {sideImages.value && 
+                                    lenghtToArray(sideImages.value.length).map(i => (
                                         <Box width='10em' 
                                             sx={{ maxWidth: '10em', height: '10em', position: 'relative'}}>
                                             <Image 
-                                                src={getFileURL(sideImages.value?.files? sideImages.value.files[i] : null)} 
+                                                src={getFileURL(sideImages.value? sideImages.value[i] : null)} 
                                                 alt='image'
                                                 fill
                                                 style={{ objectFit: 'cover'}}
