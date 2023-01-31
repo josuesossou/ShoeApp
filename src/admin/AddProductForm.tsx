@@ -1,15 +1,14 @@
 
-import styles from '../assets/styles/AdminComponents.module.scss'
+import styles from './AdminComponents.module.scss'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import Image from "next/image";
-import AddIcon from "@mui/icons-material/Add";
-import { Box, Button, Checkbox, Divider, FormControl, FormLabel, Grid, Input, MenuItem, Paper, Select, TextField } from "@mui/material";
-import { ChangeEvent, FormEvent, useReducer } from "react";
+import { Box, Button, Checkbox, Divider, FormControl, FormLabel, Grid, MenuItem, Paper, TextField } from "@mui/material";
+import { FormEvent, useReducer } from "react";
 import { lenghtToArray } from "../helpers/helpers";
 import { Product } from "../helpers/types";
 import { addProduct, uploadImage, uploadImages } from "../helpers/api";
 import { nanoid } from 'nanoid';
-import { Description } from '@mui/icons-material';
+import { LineDivider } from '../components/common/Common';
 
 const UPDATE_NAME = 'update name'
 const UPDATE_IS_FEATURED = 'update isfeatured'
@@ -152,11 +151,7 @@ const getFileURL = (file: File | null): string => {
 }
 
 // Reusable Components
-const LineDivider = () => {
-    return (
-        <Divider sx={{ my: 2, borderWidth: '1px', borderColor:'black' }} />
-    )
-}
+
 const ImageUploader = ({ onChange, image, multiple }: any) => {
     return (
         <FormLabel
@@ -241,6 +236,7 @@ export default function AddProductForm() {
             })
             error = true
         }
+
         if (type.value ==='linked' && !link?.value) {
             dispatch({ 
                 type: UPDATE_LINK, 
@@ -252,7 +248,8 @@ export default function AddProductForm() {
             })
             error = true
         }
-        if (isSeparate && (!fgImage.value || !bgImage.value)) {
+
+        if (isSeparate && !fgImage.value) {
             dispatch({ 
                 type: UPDATE_PRODUCT_IMAGE, 
                 value: { 
@@ -273,6 +270,7 @@ export default function AddProductForm() {
             })
             error = true
         }
+
         if (!isSeparate && !solidImage.value) {
             dispatch({ 
                 type: UPDATE_SOLID_IMAGE, 
@@ -284,6 +282,7 @@ export default function AddProductForm() {
             })
             error = true
         }
+
         if (price.value < 0) {
             dispatch({ 
                 type: UPDATE_PRICE, 
@@ -306,14 +305,14 @@ export default function AddProductForm() {
         const date = new Date()
 
         // Uploading images first
-        // if (isSeparate) {
-        //     uploadImage(fgImage.value!, fgImageName)
-        //     uploadImage(bgImage.value!, bgImageName)
-        // } else {
-        //     uploadImage(solidImage.value!, solidImageName)
-        // }
+        if (isSeparate) {
+            uploadImage(fgImage.value!, fgImageName)
+            bgImage.value? uploadImage(bgImage.value, bgImageName) : null
+        } else {
+            uploadImage(solidImage.value!, solidImageName)
+        }
         
-        // if (sideImages.value) uploadImages(sideImages.value, sideImagesName)
+        if (sideImages.value) uploadImages(sideImages.value, sideImagesName)
 
         // constructing product data
         const product: Product = {

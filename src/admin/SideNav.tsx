@@ -1,9 +1,8 @@
 import { useContext, useState } from "react";
 import { AdminContext, SideBarNavContext } from "../contexts/adminPageContext";
-import { Action, AdminData } from "../helpers/types";
+import { Action } from "../helpers/types";
 import DynamicTab from "./DynamicTab";
-import styles from '../assets/styles/AdminComponents.module.scss'
-import { Divider } from "@mui/material";
+import styles from './AdminComponents.module.scss'
 
 
 type PropsType = {

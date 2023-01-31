@@ -1,0 +1,36 @@
+.products_section {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    max-width: 60em;
+    gap: 1em;
+    row-gap: 5em;
+    margin: 1em;
+    padding: 5em 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+    small {
+        font-weight: bold;
+    }
+    .cardMedia {
+        height: 240px;
+        object-fit: contain;
+    }
+}
+
+@media (min-width: 55em) {
+    .products_section {
+        grid-template-columns: repeat(4, 1fr) !important;
+
+        .cardMedia {
+            height: 140px;
+        }
+    }
+}
+
+@media (min-width: 40em) {
+    .products_section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

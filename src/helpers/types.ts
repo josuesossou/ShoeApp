@@ -1,3 +1,5 @@
+import { ReactNode } from "react"
+
 // ==========================HELPER INTERFACES=======================
 interface SideImage {
     solid: true,
@@ -16,6 +18,7 @@ interface Price {
     decimal: number
 }
 
+
 // interface interfaceofProduct {
 //     value: 'commingSoon' | 'orderNow' | 'linked' | 'unPublished', // values cna only be 'commmingSoon' | 'orderNOw' | 'linked'
 //     price: Price,
@@ -23,6 +26,12 @@ interface Price {
 // }
 
 // =========================FRONTEND UI INTERFACES=======================
+export interface NavLink {
+    name: string,
+    icon: any,
+    link: string
+}
+
 export interface Action {
     label: string,
     action: string,
@@ -65,7 +74,7 @@ export interface Product {
     isSolid: boolean,
     solidImageUrl: string,
     fgImageUrl: string,
-    bgImageUrl: string,
+    bgImageUrl?: string,
     sideImages: string[],
     price: Price,
     isFeatured: boolean,
