@@ -5,7 +5,7 @@ import { AdminContext } from "../contexts/adminPageContext"
 import { generateProductData } from "../helpers/testDataGenerator"
 import { Action, Product } from "../helpers/types"
 import DynamicDataTable from "./DynamicDataTable"
-import DynamicTab from "./DynamicTab"
+import DynamicTab from "../components/common/DynamicTab"
 import DynamicTextField from "./DynamicTextField"
 
 type ProductDetailsPropsType = {

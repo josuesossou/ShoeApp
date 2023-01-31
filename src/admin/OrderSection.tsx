@@ -2,7 +2,7 @@ import { Grid, Input, TextField } from "@mui/material"
 import { useContext, useState } from "react"
 import { AdminContext } from "../contexts/adminPageContext"
 import { Action } from "../helpers/types"
-import DynamicTab from "./DynamicTab"
+import DynamicTab from "../components/common/DynamicTab"
 import DynamicTextField from "./DynamicTextField"
 
 
