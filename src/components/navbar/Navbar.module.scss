@@ -17,6 +17,12 @@
         }
     }
 
+    .shop_all {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 2em;
+    }
 }
 .list {
     position: absolute;
