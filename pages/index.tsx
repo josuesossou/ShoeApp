@@ -8,7 +8,6 @@ export default function Home() {
   return (
     <Wrapper>
       <Navbar />
-      {/* <HomeComponent /> */}
       <Showcase />
       <div id='products' />
       <Featured />

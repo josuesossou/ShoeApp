@@ -68,7 +68,12 @@ export const generateProductData = (amount:number) => {
             showcase, 
             type,
             price: getRandomPrice(),
-            description: 'lorem',
+            description: `Lorem ipsum dolor sit, 
+                amet consectetur adipisicing elit. 
+                Tenetur at voluptas nulla ea error 
+                aspernatur cum quis incidunt in! 
+                Corporis id quaerat blanditiis debitis illo.
+            `,
             dateTime: date.toLocaleTimeString() + ' ' + date.toLocaleDateString(),
             name: getRandomName(),
             rating: getRandomFromList([1,2,3,4,5]),

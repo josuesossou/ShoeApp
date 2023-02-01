@@ -13,7 +13,7 @@ interface Featured {
     pageOrder: number // order to be shown on the page
 }
 
-interface Price {
+export interface Price {
     whole: number, // example $99.75 becomes whole: 99 decimal 75
     decimal: number
 }

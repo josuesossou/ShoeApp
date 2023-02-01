@@ -1,7 +1,7 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { NavLink } from '../helpers/types';
+import { Action, NavLink } from '../helpers/types';
 
 export const navLinks: NavLink[] = [
     {
@@ -25,4 +25,11 @@ export const navLinks: NavLink[] = [
         icon: SettingsIcon,
         link: ''
     },
+]
+
+export const productsFilterNavLinks:Action[] = [
+    {
+        label: 'Shoes',
+        action: 'shoes',
+    }
 ]

@@ -4,7 +4,6 @@ import { Orbitron } from '@next/font/google'
 
 const orbitron = Orbitron({ subsets: ['latin'] })
 
-
 export default function Wrapper({ children }: any) {
   return (
     <div className={`${orbitron.className} ${styles.wrapper}`}>
