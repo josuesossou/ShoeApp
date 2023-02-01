@@ -15,9 +15,9 @@ export const navLinks: NavLink[] = [
         link: ''
     },
     {
-        name: 'Cart',
+        name: 'Bag',
         icon: LocalMallIcon,
-        link: ''
+        link: '/bag'
     },
 
     {

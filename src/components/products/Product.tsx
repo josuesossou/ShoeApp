@@ -1,13 +1,16 @@
 import styles from './Products.module.scss'
 import Grid from '@mui/material/Unstable_Grid2'
+
+import shoe9 from '../../assets/images/shoe9.png'
 import { useContext, useEffect, useState } from 'react'
 import { PagesContext } from '../../contexts/pagesDataContext'
-import { getPriceString } from '../../helpers/helpers'
+import { getPriceString, lenghtToArray } from '../../helpers/helpers'
 import { Product } from '../../helpers/types'
 import { LineDivider } from '../common/Common'
-import { Button, Stack } from '@mui/material'
+import { Button, Rating, Stack, TextField } from '@mui/material'
 import { generateProductData } from '../../helpers/testDataGenerator'
 import { shoeSizes } from '../../data/productSizes'
+import Image from 'next/image'
 
 interface SizeBtnProps {
     size: string,
@@ -44,6 +47,7 @@ const SizesComp = ({setSelected, selected}: any) => {
             >
                 {shoeSizes.USMen.map(size => (
                     <SizeButton 
+                        key={size.toString()}
                         size={size} 
                         onClick={() => setSelected(size)}
                         selected={selected}
@@ -88,6 +92,8 @@ export default function ProductComp() {
     const [product, setProduct] = useState<Product | null>(null)
     const [selected, setSelected] = useState<string>('')
     const [quantity, increment] = useState<number>(1)
+    const [rating, setRating] = useState<number | null>(null)
+    const [comment, setComment] = useState<string>('')
 
     useEffect(() => {
         const prod = generateProductData(1)[0]
@@ -99,13 +105,22 @@ export default function ProductComp() {
         <section className={styles.product_page_wrapper}>
             <div>
                 <div>
-                    <h1>{product.name}</h1>
-                    <p>DETAILS</p>
-                    <p>{product.description}</p>
+                    <h2>{product.name}</h2>
+                    <br />
+                    <h3>DETAILS</h3>
+                    <p className={styles.text}>{product.description}</p>
+                    <br />
                     <p>{getPriceString(product.price)}</p>
                 </div>
             </div>
-            <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, dignissimos?</div>
+            <div>
+                {lenghtToArray(9).map(i => (
+                    <Image
+                        alt='img'
+                        src={shoe9}
+                    />
+                ))}
+            </div>
             <div>
                 <div>
                     <SizesComp 
@@ -113,16 +128,52 @@ export default function ProductComp() {
                         setSelected={setSelected} 
                     />
                     <br />
-                    <LineDivider />
+                    <LineDivider thickness={0.5} />
                     <br />
                     <Quantity
                         quantity={quantity}
                         increment={increment}
                     />
                     <br />
-                    <Button style={{ width: '100%' }} variant='contained'>
+                    <Button 
+                        style={{ width: '100%' }} 
+                        variant='contained'>
                         Add To Bag
                     </Button>
+                    <LineDivider thickness={0} />
+                    <div>
+                        <Grid container 
+                            justifyContent='space-between' 
+                            alignItems='center'
+                        >
+                            <p>ADD A REVIEW</p>
+                            <Button style={{ padding: 0 }}>Submit</Button>
+                        </Grid>
+                        
+                        <br />
+                        <Rating 
+                            name="product-rating" 
+                            defaultValue={2.5} 
+                            precision={0.5}
+                            onChange={(e, newVal) => setRating(newVal)}
+                            style={{ marginBottom: '.5em' }}
+                        />
+                        
+                        <TextField 
+                            id='desc'
+                            label='Comment'
+                            fullWidth
+                            size="small"
+                            value={comment}
+                            // error={description.error}
+                            // aria-errormessage={description.errorMessage}
+                            // helperText={name.errorMessage}
+                            onChange={(e) => setComment(e.target.value)}
+                            multiline
+                            rows={4}
+                        />
+                    </div>
+                    
                 </div>
             </div>
         </section>

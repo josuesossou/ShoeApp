@@ -11,24 +11,33 @@
 
     >div {
         // display: flex;
-        padding: 1em;
         
         > div {
             position: sticky !important;
-            padding: 3em 1em;
-            top: 1em;
+            padding: 4em 1em;
+            top: 5em;
 
-            p {
+            p,h3 {
                 @include generalFont()
             }
-
-
+            h3 {
+                margin-bottom: .5em;
+            }
+            .text {
+                width: 40ch;
+                line-height: 1.3em;
+            }
         }
     }
 
     > div:nth-of-type(2) {
         position: relative;
-        height: 300vh;
+        padding: 7em 0;
+
+        img {
+            width: 100%;
+            object-fit: cover;
+        }
     }
 }
 .sizes_comp {
