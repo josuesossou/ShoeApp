@@ -6,7 +6,7 @@ import { Box, Button, Checkbox, Divider, FormControl, FormLabel, Grid, MenuItem,
 import { FormEvent, useReducer } from "react";
 import { lenghtToArray } from "../helpers/helpers";
 import { Product } from "../helpers/types";
-import { addProduct, uploadImage, uploadImages } from "../helpers/api";
+import { addProduct, uploadImage, uploadImages } from "../helpers/api/products";
 import { nanoid } from 'nanoid';
 import { LineDivider } from '../components/common/Common';
 

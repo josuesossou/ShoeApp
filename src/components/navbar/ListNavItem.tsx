@@ -7,7 +7,7 @@ export default function ListNavItem({ name, icon, link }: NavLink) {
     return (
         <Link href={link}>
             <ListItemButton>
-                {name.toLowerCase() === 'cart'? (
+                {name.toLowerCase() === 'bag'? (
                     
                         <ListItemIcon>
                             <Badge badgeContent={4} color="primary">

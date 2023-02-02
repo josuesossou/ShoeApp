@@ -26,6 +26,12 @@ export interface Price {
 // }
 
 // =========================FRONTEND UI INTERFACES=======================
+export interface AuthCredentials {
+    email: string,
+    password: string,
+    firstName?: string,
+    lastName?: string
+}
 export interface NavLink {
     name: string,
     icon: any,

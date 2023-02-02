@@ -10,6 +10,7 @@ interface AuthState {
 
 }
 
+
 export default function AuthComp() {
     const [isLogin, toggleIsLogin] = useState(true)
 
@@ -26,7 +27,7 @@ export default function AuthComp() {
                     <section>
                         <TextField 
                             id='email'
-                            label='Email | Username'
+                            label='Email'
                             fullWidth
                             size='small'
                             variant='standard'
