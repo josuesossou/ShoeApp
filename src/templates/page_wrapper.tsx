@@ -1,10 +1,50 @@
 import Head from 'next/head'
 import styles from './Templates.module.scss'
+import useSWR from 'swr'
+import Navbar from '../components/navbar/Navbar'
+
 import { Orbitron } from '@next/font/google'
+import { useContext, useEffect } from 'react'
+import { PagesContext } from '../contexts/pagesDataContext'
+import { fetcher } from '../helpers/api/shared'
 
 const orbitron = Orbitron({ subsets: ['latin'] })
 
 export default function Wrapper({ children }: any) {
+  const [pageData, passData] = useContext(PagesContext)
+  const swrFetchBag = useSWR(
+    `http://localhost:1337/api/bags?[username][eq]=${pageData.user?.user.username}`, 
+    fetcher
+  )
+  const swrFetchUser = useSWR(
+    {
+      url: '/api/user', 
+      headers: {Authorization: pageData.user?.jwt || ''},
+    },
+  
+    fetcher
+  )
+
+
+  useEffect(() => {
+    passData({ 
+      ...pageData, 
+      user: swrFetchUser.data, 
+      bag: swrFetchBag.data 
+    })
+
+    console.log('USEr', swrFetchUser.data)
+    console.log('BAg', swrFetchBag.data)
+
+    // fetch('/api/user')
+    // .then(res => res.json())
+    // .then(user => {
+    //     console.log(user)
+    //     passData({ ...pageData, user })
+    // })
+    // .catch(() => passData({ ...pageData, user: null }))
+  }, [swrFetchUser.isLoading, swrFetchBag.isLoading])
+
   return (
     <div className={`${orbitron.className} ${styles.wrapper}`}>
         <Head>
@@ -14,7 +54,8 @@ export default function Wrapper({ children }: any) {
             <link rel="icon" href="/favicon.ico" media="(prefered-color-scheme: light)" />
             {/* <link rel="icon" href="/favicon.ico" media="(prefered-color-scheme: dark)" /> */}
         </Head>
-            {children}
+          <Navbar />
+          {children}
     </div>
   )
 }

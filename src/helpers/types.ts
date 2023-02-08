@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { MouseEventHandler, ReactNode } from "react"
 
 // ==========================HELPER INTERFACES=======================
 interface SideImage {
@@ -32,10 +32,18 @@ export interface AuthCredentials {
     firstName?: string,
     lastName?: string
 }
+
 export interface NavLink {
+    auth?: boolean, // whether user authenticated or not
     name: string,
     icon: any,
-    link: string
+    link: string,
+    action?:  MouseEventHandler<HTMLAnchorElement>
+}
+
+export interface StateAction {
+    type: string,
+    value: any
 }
 
 export interface Action {
@@ -53,6 +61,22 @@ export interface AdminData {
     productReviews: Action[]
 }
 
+export interface FormValue<T> {
+    value: T,
+    error: boolean,
+    errorMessage?: string
+}
+
+export interface PageData {
+    user?: {jwt: string, user: any} | null
+    flashMessage?: {
+        severity: 'success' | 'error' | 'warning',
+        message: string,
+        show: boolean
+    } | null,
+    bag?: BagItem[] | null
+}
+
 // sidebarLinks,
 // orders,
 // productReviews,
@@ -62,11 +86,15 @@ export interface AdminData {
 
 
 // =========================DATABASE DATA INTERFACES======================
+export interface BagItem {
+    username: string,
+    productTag: string 
+}
 /// issues for orders
 export interface Issue {
     id: string,
     userId: string,
-    orderId: string,
+    orderId: string, // links to order
     need: 'refund' | 'not received' | 'problem',
     reason: string,
     resolved: boolean

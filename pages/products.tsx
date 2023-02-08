@@ -5,7 +5,6 @@ import Wrapper from '../src/templates/page_wrapper';
 export default function Products() {
   return (
     <Wrapper>
-        <Navbar />
         <ProductsComp />
     </Wrapper>
   )

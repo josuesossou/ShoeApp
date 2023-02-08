@@ -11,7 +11,6 @@ type PropsType = {
 export default function Admin({ adminData }: PropsType) {
   return (
     <Wrapper>
-        <Navbar />
         <AdminPage adminData={adminData}/>
     </Wrapper>
   )

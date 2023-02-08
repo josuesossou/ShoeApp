@@ -5,7 +5,6 @@ import Wrapper from '../src/templates/page_wrapper';
 export default function NotFound() {
   return (
     <Wrapper>
-        <Navbar />
         <ErrorPage />
     </Wrapper>
   )

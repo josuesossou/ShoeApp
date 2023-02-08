@@ -1,7 +1,8 @@
 import styles from './Products.module.scss'
 import Grid from '@mui/material/Unstable_Grid2'
-
+import Image from 'next/image'
 import shoe9 from '../../assets/images/shoe9.png'
+
 import { useContext, useEffect, useState } from 'react'
 import { PagesContext } from '../../contexts/pagesDataContext'
 import { getPriceString, lenghtToArray } from '../../helpers/helpers'
@@ -10,7 +11,8 @@ import { LineDivider } from '../common/Common'
 import { Button, Rating, Stack, TextField } from '@mui/material'
 import { generateProductData } from '../../helpers/testDataGenerator'
 import { shoeSizes } from '../../data/productSizes'
-import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { addProductToBag } from '../../helpers/api/bags'
 
 interface SizeBtnProps {
     size: string,
@@ -94,11 +96,29 @@ export default function ProductComp() {
     const [quantity, increment] = useState<number>(1)
     const [rating, setRating] = useState<number | null>(null)
     const [comment, setComment] = useState<string>('')
+    const [pageData, passData] = useContext(PagesContext)
+
+    const router = useRouter()
 
     useEffect(() => {
         const prod = generateProductData(1)[0]
         setProduct(prod)
     }, [])
+
+    const addToBag = () => {
+        if (!pageData.user) {
+            router.push('/auth')
+            return
+        }
+        if (!product) return
+
+        addProductToBag({
+            username: pageData.user.user.username,
+            productTag: product.tag
+        })
+
+        location.reload()
+    }
 
     if (!product) return <p>loading</p>
     return (
@@ -116,6 +136,7 @@ export default function ProductComp() {
             <div>
                 {lenghtToArray(9).map(i => (
                     <Image
+                        key={i}
                         alt='img'
                         src={shoe9}
                     />
@@ -137,7 +158,9 @@ export default function ProductComp() {
                     <br />
                     <Button 
                         style={{ width: '100%' }} 
-                        variant='contained'>
+                        variant='contained'
+                        onClick={addToBag}
+                    >
                         Add To Bag
                     </Button>
                     <LineDivider thickness={0} />

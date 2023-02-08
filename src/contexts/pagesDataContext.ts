@@ -1,5 +1,6 @@
 import { createContext, Dispatch } from "react";
+import { PageData } from "../helpers/types";
 
 const pagesDefaultData: any = null
 
-export const PagesContext = createContext<[any, Dispatch<any>]>(pagesDefaultData)
+export const PagesContext = createContext<[PageData, Dispatch<PageData>]>(pagesDefaultData)

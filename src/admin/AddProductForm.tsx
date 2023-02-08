@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Box, Button, Checkbox, Divider, FormControl, FormLabel, Grid, MenuItem, Paper, TextField } from "@mui/material";
 import { FormEvent, useReducer } from "react";
 import { lenghtToArray } from "../helpers/helpers";
-import { Product } from "../helpers/types";
+import { FormValue, Product, StateAction } from "../helpers/types";
 import { addProduct, uploadImage, uploadImages } from "../helpers/api/products";
 import { nanoid } from 'nanoid';
 import { LineDivider } from '../components/common/Common';
@@ -39,11 +39,7 @@ const UPDATE_DESCRIPTION = 'update description'
 // solidImage: string,
 // price: number
 // Interfaces
-interface FormValue<T> {
-    value: T,
-    error: boolean,
-    errorMessage?: string
-}
+
 // interface FormValueString<T> extends FormValue {
 //     value: T,
 // }
@@ -72,13 +68,10 @@ interface State {
     hidePrice?: boolean
 }
 
-interface Action {
-    type: string,
-    value: any
-}
+
 
 // states and reducer
-function reducer(state:State, action: Action): State {
+function reducer(state:State, action: StateAction): State {
     switch (action.type) {
         case UPDATE_NAME:
             return { ...state, name: action.value };
@@ -343,7 +336,8 @@ export default function AddProductForm() {
 
     const onChangeHandler = (
         event:any, 
-        type:string, inputType: string = 'text'
+        type:string, 
+        inputType: string = 'text'
     ) => {
         if (inputType === 'checkbox')
             return dispatch({ type, value: event.target.checked })

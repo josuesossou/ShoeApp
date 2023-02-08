@@ -19,13 +19,13 @@ interface CardPropsType {
 
 const ProductCard = ({ product }: CardPropsType) => {
     const { type, name, price } = product
-    const [_, passData] = useContext(PagesContext)
+    const [pageData, passData] = useContext(PagesContext)
     const router = useRouter()
 
-    const onClick = () => {
-        passData(product)
-        router.push(`/product/${type}/${name}`)
-    }
+    // const onClick = () => {
+    //     passData({...pageData, product})
+    //     router.push(`/product/${type}/${name}`)
+    // }
 
     return (
         <Link href={`/product/${type}/${name}`}>

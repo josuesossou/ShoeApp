@@ -7,11 +7,9 @@ import Wrapper from '../src/templates/page_wrapper';
 export default function Home() {
   return (
     <Wrapper>
-      <Navbar />
       <Showcase />
       <div id='products' />
       <Featured />
-      
     </Wrapper>
   )
 }

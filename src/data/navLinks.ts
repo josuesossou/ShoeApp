@@ -1,29 +1,36 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LocalMallIcon from '@mui/icons-material/LocalMall';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Action, NavLink } from '../helpers/types';
 
 export const navLinks: NavLink[] = [
     {
+        auth: false,
         name: 'Login | Register',
         icon: '',
         link: '/auth'
     },
     {
+        auth: true,
         name: 'Account',
         icon: AccountCircleIcon,
         link: ''
     },
     {
-        name: 'Bag',
-        icon: LocalMallIcon,
-        link: '/bag'
-    },
-
-    {
+        auth: true,
         name: 'Setting',
         icon: SettingsIcon,
         link: ''
+    },
+    {
+        auth: true,
+        name: 'Logout',
+        icon: '',
+        link: '',
+        action: () => {
+            fetch('/api/logout').then(data => {
+                location.reload()
+            })
+        }
     },
 ]
 
