@@ -2,13 +2,10 @@ import styles from './Auth.module.scss'
 import { Button, FormControl, Grid, IconButton, InputAdornment, TextField } from "@mui/material";
 import { LineDivider } from "../common/Common";
 import { Facebook, Google, Twitter, Visibility, VisibilityOff } from '@mui/icons-material';
-import { FormEvent, useContext, useReducer, useState } from 'react';
+import { FormEvent, useContext, useEffect, useReducer, useState } from 'react';
 import { FormValue, StateAction } from '../../helpers/types';
-// import { emailPattern, namePattern, passwordPattern } from '../../helpers/helpers';
-// import { loginUserLocal, registerUserLocal } from '../../helpers/api/auth';
-// import { useRouter } from 'next/router';
-// import { PagesContext } from '../../contexts/pagesDataContext';
-
+import { useRouter } from 'next/router';
+import { PagesContext } from '../../contexts/pagesDataContext';
 import formHandler, { 
     UPDATE_EMAIL, 
     UPDATE_PASSWORD,
@@ -16,9 +13,6 @@ import formHandler, {
     UPDATE_FIRST_NAME,
     UPDATE_LAST_NAME
 } from './AuthLogic';
-import { useRouter } from 'next/router';
-import { PagesContext } from '../../contexts/pagesDataContext';
-
 
 
 interface State {
@@ -64,14 +58,17 @@ export default function AuthComp() {
     const [state, dispatch] = useReducer(reducer, initialState)
     const [isLogin, toggleIsLogin] = useState(true)
     const [pageData, passData] = useContext(PagesContext)
-    const router = useRouter()
     const {email, password, checkPassword, firstName, lastName} = state
+    const router = useRouter()
 
-
+    useEffect(() => {
+        if (pageData.user) router.back()
+    }, [pageData.user])
 
     const toggleLogin = () => {
         toggleIsLogin(!isLogin)
     }
+
     const onChangeHandler = (e:any, type:string) => {
         dispatch({ type, value: { value: e.target.value, error: false } })
     }

@@ -1,7 +1,7 @@
+import Link from 'next/link';
 import { Badge, Icon, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { NavLink } from '../../helpers/types';
-import Link from 'next/link';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { PagesContext } from '../../contexts/pagesDataContext';
 
 export default function ListNavItem({ name, icon, link, action }: NavLink) {

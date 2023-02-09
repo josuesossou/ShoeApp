@@ -5,6 +5,7 @@ export const registerUserLocal = async ({
     }: AuthCredentials) => { 
     
     const username = email.split('@')[0]
+
     try {
 
         const res = await (await fetch('http://localhost:1337/api/auth/local/register', {
@@ -19,28 +20,29 @@ export const registerUserLocal = async ({
             })
         })).json()
 
-        console.log('User profile', res);
-
         if (res.error) {
             return Promise.resolve({
                 success: false,
-                message: res.error.message
+                message: res.error.message === 'Invalid identifier or password' ?
+                'Invalid email or password' : 'something went wrong'
             })
         }
-
-        console.log('WORKING ...')
     
-        sessionStorage.setItem('user', JSON.stringify(res))
+        // api session , moderates the session
+        await fetch('/api/login', {
+            method: 'post',
+            body: JSON.stringify(res)
+        })
 
         return Promise.resolve({
             success: true,
             message: 'success'
         })
+
     } catch (error) {
-        console.log('User ERROR', error);
         return Promise.resolve({
             success: false,
-            message: error
+            message: 'something went wrong'
         })
     }
 
@@ -72,6 +74,7 @@ export const loginUserLocal = async ({
             })
         }
 
+        // api session , moderates the session
         await fetch('/api/login', {
             method: 'post',
             body: JSON.stringify(res)
@@ -81,8 +84,8 @@ export const loginUserLocal = async ({
             success: true,
             message: 'success'
         })
-    } catch (error) {
 
+    } catch (error) {
         return Promise.resolve({
             success: false,
             message: 'something went wrong'

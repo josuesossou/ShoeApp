@@ -94,7 +94,9 @@ body {
     #ffffff 20%, 60%, #efefef
     ) no-repeat fixed;
 }
-
+a, p, small {
+  font-family: var(--font-mono);
+}
 a {
   color: inherit;
   text-decoration: none;

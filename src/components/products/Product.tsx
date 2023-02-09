@@ -64,31 +64,29 @@ const Quantity = ({ quantity, increment}: any) => {
     return (
         <div className={styles.quantity_comp}>
             <p>QUANTITY</p>
-                <br />
-                <Grid container gap={1}>
-                    <Button 
-                        variant='outlined'
-                        onClick={() => {
-                            if (quantity > 1) increment(quantity - 1)
-                        }}
-                    >
-                        -
-                    </Button>
-                    <Button style={{ flex: 1 }} variant='outlined' disabled>
-                        {quantity}
-                    </Button>
-                    <Button 
-                        variant='outlined'
-                        onClick={() => increment(quantity + 1)}
-                    >
-                        +
-                    </Button>
-                </Grid>
+            <br />
+            <Grid container gap={1}>
+                <Button 
+                    variant='outlined'
+                    onClick={() => {
+                        if (quantity > 1) increment(quantity - 1)
+                    }}
+                >
+                    -
+                </Button>
+                <Button style={{ flex: 1 }} variant='outlined' disabled>
+                    {quantity}
+                </Button>
+                <Button 
+                    variant='outlined'
+                    onClick={() => increment(quantity + 1)}
+                >
+                    +
+                </Button>
+            </Grid>
         </div>
     )
 }
-
-
 
 export default function ProductComp() {
     const [product, setProduct] = useState<Product | null>(null)
@@ -112,10 +110,15 @@ export default function ProductComp() {
         }
         if (!product) return
 
-        addProductToBag({
-            username: pageData.user.user.username,
-            productTag: product.tag
-        })
+        if (pageData.bag?.find(item => item.productTag === product.tag)) return
+
+        addProductToBag(
+            {
+                username: pageData.user.user.username,
+                productTag: product.tag,
+            }, 
+            pageData.user.jwt
+        )
 
         location.reload()
     }
@@ -127,7 +130,7 @@ export default function ProductComp() {
                 <div>
                     <h2>{product.name}</h2>
                     <br />
-                    <h3>DETAILS</h3>
+                    <p>DETAILS</p>
                     <p className={styles.text}>{product.description}</p>
                     <br />
                     <p>{getPriceString(product.price)}</p>

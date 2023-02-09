@@ -106,7 +106,7 @@ export default function formHandler(
                     show: true,
                     message: 'Account Successfully Registered'
                 } })
-                return router.back()
+                return location.reload()
             }
 
             passData({ ...pageData, flashMessage: {
@@ -126,7 +126,7 @@ export default function formHandler(
                     show: true,
                     message: 'Login Successfull'
                 } })
-                return router.back()
+                return location.reload()
             }
 
             passData({ ...pageData, flashMessage: {

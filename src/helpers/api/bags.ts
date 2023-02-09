@@ -1,8 +1,11 @@
 import { BagItem } from "../types"
 
-export const addProductToBag = (bagItem: BagItem) => { 
+export const addProductToBag = (bagItem: BagItem, token: string) => { 
     fetch('http://localhost:1337/api/bags', {
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer '+token,
+        },
         method: 'post',
         body: JSON.stringify({
             "data": bagItem

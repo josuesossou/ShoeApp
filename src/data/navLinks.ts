@@ -17,17 +17,11 @@ export const navLinks: NavLink[] = [
     },
     {
         auth: true,
-        name: 'Setting',
-        icon: SettingsIcon,
-        link: ''
-    },
-    {
-        auth: true,
         name: 'Logout',
         icon: '',
         link: '',
         action: () => {
-            fetch('/api/logout').then(data => {
+            fetch('/api/logout').then(() => {
                 location.reload()
             })
         }

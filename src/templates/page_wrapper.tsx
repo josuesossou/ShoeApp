@@ -12,27 +12,36 @@ const orbitron = Orbitron({ subsets: ['latin'] })
 
 export default function Wrapper({ children }: any) {
   const [pageData, passData] = useContext(PagesContext)
-  const swrFetchBag = useSWR(
-    `http://localhost:1337/api/bags?[username][eq]=${pageData.user?.user.username}`, 
-    fetcher
-  )
   const swrFetchUser = useSWR(
     {
       url: '/api/user', 
-      headers: {Authorization: pageData.user?.jwt || ''},
     },
   
     fetcher
   )
+  const swrFetchBag = useSWR(
+    !pageData.user? null :
+    {
+      url: `http://localhost:1337/api/bags?[username][eq]=${pageData.user?.user.username}`,
+      headers: {Authorization: 'Bearer ' + pageData.user?.jwt},
+    },
+    fetcher
+  )
+
 
 
   useEffect(() => {
+    // if (swrFetchUser.data) 
     passData({ 
       ...pageData, 
       user: swrFetchUser.data, 
-      bag: swrFetchBag.data 
+      bag: swrFetchBag.data? swrFetchBag.data['data'] : []
     })
 
+    // if (swrFetchBag.data) passData({ 
+    //   ...pageData, 
+    //   bag: swrFetchBag.data 
+    // })
     console.log('USEr', swrFetchUser.data)
     console.log('BAg', swrFetchBag.data)
 

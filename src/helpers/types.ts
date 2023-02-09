@@ -121,7 +121,8 @@ export interface Product {
     createdAt?: any, // actual date time in string
     dateTime: string, // date time in mili second
     timeZone: string,
-    rating: number
+    rating: number,
+    // productKind: 'shoes' | 'clothes' //for size chart and filtering
 }
 
 // can be updated. order is created after a purchase was made

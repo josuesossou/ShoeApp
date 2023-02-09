@@ -5,7 +5,7 @@ export default function Product() {
   return (
     <Wrapper>
       <Navbar />
-      hello
+      Coming Soon
     </Wrapper>
   )
 }

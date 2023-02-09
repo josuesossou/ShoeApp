@@ -38,9 +38,9 @@ const ProductCard = ({ product }: CardPropsType) => {
                 </div>
 
                 <CardContent>
-                    <p>{name}</p>
+                    <h3>{name}</h3>
                     {type==='comingSoon' && <p>Coming Soon</p>}
-                    {type==='linked' && <p>Affiliate Product </p>}
+                    {type==='linked' && <p>External Site</p>}
                     {type==='orderNow' && <p>Order Now</p>}
                     <p>{getPriceString(price)}</p>
                 </CardContent>
