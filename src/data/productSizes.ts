@@ -13,7 +13,6 @@ export const shirtSizes = {
     bottomOpening: ['42','44','46','48','50','52',]
 }
 
-
 // Inches	Centimeters	U.S. & Canada	Europe	UK
 // 8-3/16	20.8	4	35	2
 // 8-3/8	21.3	4.5	35	2.5
