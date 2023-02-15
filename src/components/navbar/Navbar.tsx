@@ -1,15 +1,16 @@
 import Image from 'next/image'
 import styles from './Navbar.module.scss'
-import Logo from '../../assets/images/logo/Logo.png'
 import NameLogo from '../../assets/images/logo/Name-logo.png'
 import Link from 'next/link';
 import ListNavItem from './ListNavItem';
 import Grid from '@mui/material/Unstable_Grid2';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
+import Logo from '../logo/Logo';
 import { Badge, Button, List } from '@mui/material';
 import { navLinks } from '../../data/navLinks';
 import { useContext, useEffect, useState } from 'react';
 import { PagesContext } from '../../contexts/pagesDataContext';
+
 
 export default function Navbar() {
     const [isOpen, toggleIsOpen] = useState<boolean>(false)
@@ -35,9 +36,7 @@ export default function Navbar() {
                     <Image alt="Autrion" src={NameLogo} width={110} />
                 </Link>
 
-                <Link href='/'>
-                    <Image alt='' src={Logo} width={50} height={50}  />
-                </Link>
+                <Logo />
 
                 <Badge badgeContent={pageData.bag?.length || 0} color="primary">
                     <Button onClick={openNav} sx={{ width: '5em' }}>

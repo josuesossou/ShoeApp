@@ -1,0 +1,8 @@
+.checkout {
+    background-color: red;
+    grid-area: main;
+
+    > div {
+        background-color: aqua;
+    }
+}

@@ -4,13 +4,13 @@ import useSWR from 'swr'
 import Navbar from '../components/navbar/Navbar'
 
 import { Orbitron } from '@next/font/google'
-import { useContext, useEffect } from 'react'
+import { ReactNode, useContext, useEffect } from 'react'
 import { PagesContext } from '../contexts/pagesDataContext'
 import { fetcher } from '../helpers/api/shared'
 
 const orbitron = Orbitron({ subsets: ['latin'] })
 
-export default function Wrapper({ children }: any) {
+export default function Wrapper({ children, nonav }: any) {
   const [pageData, passData] = useContext(PagesContext)
   const swrFetchUser = useSWR(
     {
@@ -63,7 +63,7 @@ export default function Wrapper({ children }: any) {
             <link rel="icon" href="/favicon.ico" media="(prefered-color-scheme: light)" />
             {/* <link rel="icon" href="/favicon.ico" media="(prefered-color-scheme: dark)" /> */}
         </Head>
-          <Navbar />
+          {!nonav && <Navbar />}
           {children}
     </div>
   )

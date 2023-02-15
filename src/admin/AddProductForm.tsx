@@ -2,13 +2,14 @@
 import styles from './AdminComponents.module.scss'
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import Image from "next/image";
-import { Box, Button, Checkbox, Divider, FormControl, FormLabel, Grid, MenuItem, Paper, TextField } from "@mui/material";
-import { FormEvent, useReducer } from "react";
+import { Box, Button, Card, Checkbox, Divider, FormControl, FormLabel, Grid, MenuItem, Paper, TextField } from "@mui/material";
+import { FormEvent, ReactNode, useReducer } from "react";
 import { lenghtToArray } from "../helpers/helpers";
 import { FormValue, Product, StateAction } from "../helpers/types";
 import { addProduct, uploadImage, uploadImages } from "../helpers/api/products";
 import { nanoid } from 'nanoid';
 import { LineDivider } from '../components/common/Common';
+import formSubmitHandler from './ProductFormLogic';
 
 const UPDATE_NAME = 'update name'
 const UPDATE_IS_FEATURED = 'update isfeatured'
@@ -170,6 +171,11 @@ const ImageUploader = ({ onChange, image, multiple }: any) => {
     )
 }
 
+const CardStyled = ({ children }: {children: ReactNode}) => (
+    <Card sx={{ p: 2 }}>
+        {children}
+    </Card>
+)
 
 export default function AddProductForm() {
     const [state, dispatch] = useReducer(reducer, initialState)
@@ -190,150 +196,9 @@ export default function AddProductForm() {
         price,
         hidePrice
     } = state
-
-    const formSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        let error:boolean = false
-
-        // error handlers
-        if (!name.value) {
-            dispatch({ 
-                type: UPDATE_NAME, 
-                value: { 
-                    value: name.value, 
-                    error: true, 
-                    errorMessage: 'Name of Product is required' 
-                } 
-                
-            })
-            error = true
-        }
-
-        if (isFeatured && (!parallax?.value || !featuredOrder?.value)) {
-            dispatch({ 
-                type: UPDATE_PARALLAX, 
-                value: { 
-                    value: parallax?.value, 
-                    error: true, 
-                    errorMessage: 'Parallax value is required when the product is featured' 
-                } 
-            })
-            dispatch({ 
-                type: UPDATE_ORDER, 
-                value: { 
-                    value: featuredOrder?.value, 
-                    error: true, 
-                    errorMessage: `Order at which product to be show is required 
-                                    when the product is featured` 
-                } 
-            })
-            error = true
-        }
-
-        if (type.value ==='linked' && !link?.value) {
-            dispatch({ 
-                type: UPDATE_LINK, 
-                value: { 
-                    value: link?.value, 
-                    error: true, 
-                    errorMessage: 'The other site link is required' 
-                } 
-            })
-            error = true
-        }
-
-        if (isSeparate && !fgImage.value) {
-            dispatch({ 
-                type: UPDATE_PRODUCT_IMAGE, 
-                value: { 
-                    value: fgImage.value, 
-                    error: true, 
-                    errorMessage: `Product image is required when uploading the
-                                    product and background separately` 
-                } 
-            })
-            dispatch({ 
-                type: UPDATE_BACKGROUND_IMAGE, 
-                value: { 
-                    value: bgImage.value, 
-                    error: true, 
-                    errorMessage: `Background image is required when uploading the
-                                    product and background separately` 
-                } 
-            })
-            error = true
-        }
-
-        if (!isSeparate && !solidImage.value) {
-            dispatch({ 
-                type: UPDATE_SOLID_IMAGE, 
-                value: { 
-                    value: solidImage.value, 
-                    error: true, 
-                    errorMessage: `A product image is required` 
-                } 
-            })
-            error = true
-        }
-
-        if (price.value < 0) {
-            dispatch({ 
-                type: UPDATE_PRICE, 
-                value: { 
-                    value: price.value, 
-                    error: true, 
-                    errorMessage: `A product image is required` 
-                } 
-            })
-            error = true
-        }
-
-        if (error) return
-
-        const solidImageName = `${name.value}-main-solid`
-        const fgImageName = `${name.value}-main-fg`
-        const bgImageName = `${name.value}-main-bg`
-        const sideImagesName = `${name.value}-side`
-        const priceVal = price.value.toString().split(/\D/)
-        const date = new Date()
-
-        // Uploading images first
-        if (isSeparate) {
-            uploadImage(fgImage.value!, fgImageName)
-            bgImage.value? uploadImage(bgImage.value, bgImageName) : null
-        } else {
-            uploadImage(solidImage.value!, solidImageName)
-        }
-        
-        if (sideImages.value) uploadImages(sideImages.value, sideImagesName)
-
-        // constructing product data
-        const product: Product = {
-            tag: nanoid(8),
-            name: name.value,
-            description: description.value,
-            isSolid: !isSeparate,
-            solidImageUrl: solidImageName,
-            fgImageUrl: fgImageName,
-            bgImageUrl: bgImageName,
-            price: {
-                whole: parseInt(priceVal[0]),
-                decimal: parseInt(priceVal[1]) || 0
-            },
-            type: type.value,
-            sideImages: lenghtToArray(sideImages.value?.length || 0).map(i => `${sideImagesName}-${i}`),
-            parallax: parallax?.value,
-            featuredOrder: featuredOrder?.value!,
-            isFeatured,
-            showcase,
-            timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            rating: 5,
-            dateTime: date.toLocaleTimeString() + ' ' + date.toLocaleDateString(),
-        }
-
-        addProduct(product)
+    const submitHandle = (e: FormEvent<HTMLFormElement>) => {
+        formSubmitHandler(e, state, dispatch)
     }
-
     const onChangeHandler = (
         event:any, 
         type:string, 
@@ -353,10 +218,11 @@ export default function AddProductForm() {
             elevation={0}
             className={styles.addProductForm}
         >
-            <FormControl component='form' fullWidth onSubmit={formSubmitHandler}>
+            <FormControl component='form' fullWidth onSubmit={submitHandle}>
+                <CardStyled>
                 <section>
                     <h2>Name</h2>
-                    <LineDivider />
+                    <LineDivider thickness={0.2}/>
 
                     <TextField 
                         id='name'
@@ -370,10 +236,10 @@ export default function AddProductForm() {
                         onChange={(e) => onChangeHandler(e, UPDATE_NAME)}
                     />
                 </section>
-
+                <br />
                 <section>
                     <h2>Description</h2>
-                    <LineDivider />
+                    <LineDivider thickness={0.2}/>
 
                     <TextField 
                         id='desc'
@@ -389,7 +255,7 @@ export default function AddProductForm() {
                         rows={4}
                     />
                 </section>
-
+                </CardStyled>
                 <section>
                     <h2>Featured</h2>
                     <LineDivider />
