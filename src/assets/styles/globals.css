@@ -8,6 +8,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 2, 2, 220;
   --background-end-rgb: 255, 25, 25;
+  --primary-color: #1976d2
 
   --primary-glow: conic-gradient(
     from 180deg at 50% 50%,
@@ -93,6 +94,9 @@ body {
   background: radial-gradient(
     #ffffff 20%, 60%, #efefef
     ) no-repeat fixed;
+}
+.large-p-text {
+  font-size: 1.5rem;
 }
 a, p, small {
   font-family: var(--font-mono);

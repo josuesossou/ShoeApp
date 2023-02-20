@@ -1,18 +1,20 @@
 import styles from './Products.module.scss'
 import Grid from '@mui/material/Unstable_Grid2'
 import Image from 'next/image'
-import shoe9 from '../../assets/images/shoe9.png'
+import useSWR from 'swr'
 
 import { useContext, useEffect, useState } from 'react'
 import { PagesContext } from '../../contexts/pagesDataContext'
-import { getPriceString, lenghtToArray } from '../../helpers/helpers'
-import { Product } from '../../helpers/types'
+import { getPriceString, lenghtToArray, shopifyDataToProduct, shopifyDataToProducts } from '../../helpers/helpers'
+import { Product, Products, Variant } from '../../helpers/types'
 import { LineDivider } from '../common/Common'
-import { Button, Rating, Stack, TextField } from '@mui/material'
+import { Button, Card, Rating, Stack, TextField } from '@mui/material'
 import { generateProductData } from '../../helpers/testDataGenerator'
 import { shoeSizes } from '../../data/productSizes'
 import { useRouter } from 'next/router'
 import { addProductToBag } from '../../helpers/api/bags'
+import { getProduct } from '../../helpers/api/shopify'
+import { nanoid } from 'nanoid'
 
 interface SizeBtnProps {
     size: string,
@@ -88,8 +90,69 @@ const Quantity = ({ quantity, increment}: any) => {
     )
 }
 
+const VariantsComp = ({ variants, setCurrentVariant, currentSKU }: 
+                    { 
+                        setCurrentVariant: any, 
+                        variants: Variant[],
+                        currentSKU: string
+                    }
+    ) => {
+    return (
+        <section className={styles.variants}>
+            <p>VARIANTS</p>
+            <br />
+            <Grid container position='relative'>
+                {variants.map(variant => (
+                    <Grid xs={3} className={styles.variant_card} key={nanoid(4)}>
+                        <Button onClick={() => setCurrentVariant(variant)}>
+                            <Card 
+                                sx={{ 
+                                    outline: currentSKU === variant.sku ? 
+                                            '3px solid  #1976d2' : ''                      
+                                }} 
+                                className={styles.img_wrapper}
+                            >
+                                <Image
+                                    alt=""
+                                    src={variant.image.url}
+                                    fill
+                                />
+                            </Card>
+                        </Button>
+                    </Grid>
+                ))}
+            </Grid>
+        </section>
+    )
+}
+
+const VariantComp = ({ variant }:{ variant:Variant }) => {
+    return (
+        <section>
+            
+            {variant.sku && variant.selectedOptions.map(option => (
+                <div key={nanoid(4)}>
+                    <small>{option.name}: </small>
+                    <small>{option.value}</small>
+                    <br/>
+                </div>
+            ))}
+            <br />
+            <p className='large-p-text'>${variant.price}</p>
+            {variant.availableForSale? (<></>): (
+                <>
+                    <br />
+                    <p>Not Available</p>
+                </>
+            )}
+        </section>
+    )
+}
+
 export default function ProductComp() {
     const [product, setProduct] = useState<Product | null>(null)
+    const [additionalProduts, setAdditionalProducts] = useState<Products[]>()
+    const [variant, setCurrentVariant] = useState<Variant>()
     const [selected, setSelected] = useState<string>('')
     const [quantity, increment] = useState<number>(1)
     const [rating, setRating] = useState<number | null>(null)
@@ -97,11 +160,26 @@ export default function ProductComp() {
     const [pageData, passData] = useContext(PagesContext)
 
     const router = useRouter()
+    const { productHandle } = router.query
+
+    const shopifyData = useSWR(productHandle, getProduct)
 
     useEffect(() => {
-        const prod = generateProductData(1)[0]
+        if (!shopifyData.data) return 
+
+        const prod:Product = shopifyDataToProduct(shopifyData.data)
+        let additionalProds = shopifyData.data['collections']['edges'][0]['node']['products']['edges']
+
+        additionalProds = additionalProds.map((addProd:any) => shopifyDataToProducts(addProd))
+        
+        console.log(prod)
+        console.log('additionalProds', additionalProds)
+
         setProduct(prod)
-    }, [])
+        setAdditionalProducts(additionalProds)
+        setCurrentVariant(prod.variants[0])
+        
+    }, [shopifyData.isLoading])
 
     const addToBag = () => {
         if (!pageData.user) {
@@ -110,12 +188,12 @@ export default function ProductComp() {
         }
         if (!product) return
 
-        if (pageData.bag?.find(item => item.productTag === product.tag)) return
+        if (pageData.bag?.find(item => item.productTag === product.handle)) return
 
         addProductToBag(
             {
                 username: pageData.user.user.username,
-                productTag: product.tag,
+                productTag: product.handle,
             }, 
             pageData.user.jwt
         )
@@ -125,33 +203,42 @@ export default function ProductComp() {
 
     if (!product) return <p>loading</p>
     return (
-        <section className={styles.product_page_wrapper}>
-            <div>
+        <>
+        <section className={styles.product_wrapper}>
+            <section>
                 <div>
-                    <h2>{product.name}</h2>
+                    <h2>{product.title}</h2>
                     <br />
                     <p>DETAILS</p>
                     <p className={styles.text}>{product.description}</p>
-                    <br />
-                    <p>{getPriceString(product.price)}</p>
                 </div>
-            </div>
-            <div>
-                {lenghtToArray(9).map(i => (
-                    <Image
-                        key={i}
-                        alt='img'
-                        src={shoe9}
-                    />
+            </section>
+            <section>
+                {product.images.map(image => (
+                    <div key={image.url}>
+                        <Image
+                            // loader={}
+                            alt='img'
+                            src={image.url}
+                            fill
+                            sizes='1x'
+                        />
+                    </div>
                 ))}
-            </div>
-            <div>
+            </section>
+            <section>
                 <div>
-                    <SizesComp 
-                        selected={selected} 
-                        setSelected={setSelected} 
+                    <VariantsComp
+                        variants={product.variants} 
+                        currentSKU={variant?.sku || ''}
+                        setCurrentVariant={
+                            (variant: Variant) => 
+                            setCurrentVariant(variant)
+                        }
                     />
                     <br />
+                    {variant && <VariantComp variant={variant} />}
+                    {/* <p>{product.}</p> */}
                     <LineDivider thickness={0.5} />
                     <br />
                     <Quantity
@@ -201,7 +288,28 @@ export default function ProductComp() {
                     </div>
                     
                 </div>
-            </div>
+            </section>
         </section>
+        <br />
+        <section className={styles.additional_products_wrapper}>
+            <h1>RECOMMENDED PRODUCTS</h1>
+            <br />
+            <br />
+            <Grid container gap={2} alignSelf='center'>
+                {additionalProduts && additionalProduts.map(prod => (
+                    <Grid xs={4} key={nanoid(4)}>
+                        <Card elevation={0} className={styles.img_wrapper}>
+                            <Image 
+                                alt=''
+                                src={prod.image.url}
+                                fill
+                            />
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+
+        </section>
+        </>
     )
 }

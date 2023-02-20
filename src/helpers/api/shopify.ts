@@ -17,14 +17,10 @@ async function ShopifyData(query: string) {
     };
 
     try {
-        const data = await fetch(URL, options).then((response) => {
-            return response.json();
-        });
-
-        return data;
+        return await (await fetch(URL, options)).json()
     } catch (error) {
         // throw new Error(error);
-        console.log(error)
+        console.log('ERROR', error)
     }
 }
 
@@ -68,87 +64,87 @@ export async function getProductsInCollection() {
     return allProducts;
 }
 
-export async function getProduct(handle: string) {
+export async function getProduct(handle: any) {
     const query = `
     {
         product(handle: "${handle}") {
             collections(first: 1) {
                 edges {
-                node {
-                products(first: 5) {
-                    edges {
                     node {
-                        priceRange {
-                        minVariantPrice {
-                            amount
-                        }
-                        }
-                        handle
-                        title
-                        id
-                        images(first: 5) {
-                        edges {
-                            node {
-                            url
-                            altText
+                        products(first: 5) {
+                            edges {
+                                node {
+                                    priceRange {
+                                        minVariantPrice {
+                                            amount
+                                        }
+                                    }
+                                    tags
+                                    handle
+                                    title
+                                    id
+                                    images(first: 5) {
+                                        edges {
+                                            node {
+                                                url
+                                                altText
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
-                        }
-                    }
                     }
                 }
-                }
-            }
             }
             id
             title
             handle
             description
+            tags
             images(first: 5) {
-            edges {
-                node {
-                url
-                altText
+                edges {
+                    node {
+                        url
+                        altText
+                    }
                 }
-            }
             }
             options {
-            name
-            values
-            id
+                name
+                values
+                id
             }
             variants(first: 25) {
-            edges {
-                node {
-                selectedOptions {
-                    name
-                    value
+                edges {
+                    node {
+                        selectedOptions {
+                            name
+                            value
+                        }
+                        image {
+                            url
+                            altText
+                        }
+                        title
+                        id
+                        sku
+                        availableForSale
+                        priceV2 {
+                            amount
+                        }
+                    }
                 }
-                image {
-                    url
-                    altText
-                }
-                title
-                id
-                availableForSale
-                priceV2 {
-                    amount
-                }
-                }
-            }
             }
         }
     }`;
   
     const response = await ShopifyData(query);
   
-    const product = response.data.product
-      ? response.data.product
-      : [];
+    const product = response.data?.product || null;
   
     return product;
 }
-  
 
 export async function createProduct(id: string, quantity: number) {
     const query = `
@@ -161,7 +157,7 @@ export async function createProduct(id: string, quantity: number) {
             webUrl
           }
         }
-      }`;
+    }`;
   
     const response = await ShopifyData(query);
   
@@ -170,7 +166,7 @@ export async function createProduct(id: string, quantity: number) {
       : [];
   
     return checkout;
-  }
+}
 
 export async function createOrder(id: any, quantity: any) {
     const query = `
@@ -194,4 +190,3 @@ export async function createOrder(id: any, quantity: any) {
   
     return checkout;
 }
-

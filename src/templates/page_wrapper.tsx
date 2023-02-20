@@ -22,20 +22,26 @@ export default function Wrapper({ children, nonav }: any) {
   const swrFetchBag = useSWR(
     !pageData.user? null :
     {
-      url: `http://localhost:1337/api/bags?[username][eq]=${pageData.user?.user.username}`,
+      url: `http://localhost:1337/api/bags?where={"username":{"$eq":"${pageData.user?.user.username}"}}`,
       headers: {Authorization: 'Bearer ' + pageData.user?.jwt},
     },
     fetcher
   )
 
-
-
   useEffect(() => {
-    // if (swrFetchUser.data) 
+    const user = swrFetchUser.data
+    const bag = swrFetchBag.data
+
+    if (user && !user['user']['confirmed']) {
+      console.log(user)
+      location.replace(`/non-verified-user/${user['user']['email']}`)
+      return
+    }
+
     passData({ 
       ...pageData, 
-      user: swrFetchUser.data, 
-      bag: swrFetchBag.data? swrFetchBag.data['data'] : []
+      user, 
+      bag: bag? bag['data'] : []
     })
 
     // if (swrFetchBag.data) passData({ 

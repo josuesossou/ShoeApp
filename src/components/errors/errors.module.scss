@@ -1,0 +1,15 @@
+.errors {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p, a {
+        font-size: 1.3rem;
+        line-height: 2em;
+        text-transform: none;
+
+    }
+    a {
+        cursor: pointer;
+        color: var(--primary-color);
+    }
+}

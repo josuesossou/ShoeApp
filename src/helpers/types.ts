@@ -13,6 +13,11 @@ interface Featured {
     pageOrder: number // order to be shown on the page
 }
 
+export interface Image {
+    url: string,
+    altText: null | string
+}
+
 export interface Price {
     whole: number, // example $99.75 becomes whole: 99 decimal 75
     decimal: number
@@ -84,6 +89,20 @@ export interface PageData {
 // purchases,
 // users
 
+// Interface for Variant
+export interface Variant {
+    id: string,
+    title: string,
+    availableForSale: boolean,
+    image: Image,
+    price: string,
+    selectedOptions: {
+        name: string,
+        value: string
+    }[],
+    sku: string
+}
+
 
 // =========================DATABASE DATA INTERFACES======================
 export interface BagItem {
@@ -100,8 +119,29 @@ export interface Issue {
     resolved: boolean
 }
 
-// can be updated
+export interface Products {
+    handle: string,
+    id: string,
+    image: Image,
+    price: string,
+    tags: string[],
+    title: string
+}
+
 export interface Product {
+    id: string,
+    title:string,
+    description: string,
+    handle: string,
+    images: Image[],
+    options: { id:string, name:string, values: any[] }[],
+    variants: Variant[],
+    tags: string[]
+}
+
+
+// can be updated
+export interface Product2 {
     id?: string,
     tag: string,
     name: string,

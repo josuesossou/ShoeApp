@@ -6,21 +6,22 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Link from 'next/link';
 
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Product } from '../../helpers/types';
+import { Product, Products } from '../../helpers/types';
 import { Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { generateProductData } from '../../helpers/testDataGenerator';
-import { getPriceString } from '../../helpers/helpers';
+import { getPriceString, shopifyDataToProducts } from '../../helpers/helpers';
 import { useRouter } from 'next/router';
 import { PagesContext } from '../../contexts/pagesDataContext';
+import { getProductsInCollection } from '../../helpers/api/shopify';
 
 interface CardPropsType {
-    product: Product
+    product: Products
 }
 
 const ProductCard = ({ product }: CardPropsType) => {
-    const { type, name, price } = product
-    const [pageData, passData] = useContext(PagesContext)
-    const router = useRouter()
+    const { title, handle, price, image } = product
+    // const [pageData, passData] = useContext(PagesContext)
+    // const router = useRouter()
 
     // const onClick = () => {
     //     passData({...pageData, product})
@@ -28,21 +29,23 @@ const ProductCard = ({ product }: CardPropsType) => {
     // }
 
     return (
-        <Link href={`/product/${type}/${name}`}>
-            <Card elevation={0} className={styles.products_card}>
+        <Link href={`/product/${handle}`}>
+            <Card elevation={1} className={styles.products_card}>
                 <div>
                     <Image
                         alt='img'
-                        src={shoe9}
+                        src={image.url}
+                        width={600}
+                        height={600}
                     />
                 </div>
 
                 <CardContent>
-                    <h3>{name}</h3>
-                    {type==='comingSoon' && <p>Coming Soon</p>}
+                    <h3>{title}</h3>
+                    {/* {type==='comingSoon' && <p>Coming Soon</p>}
                     {type==='linked' && <p>External Site</p>}
-                    {type==='orderNow' && <p>Order Now</p>}
-                    <p>{getPriceString(price)}</p>
+                    {type==='orderNow' && <p>Order Now</p>} */}
+                    <p>{price}</p>
                 </CardContent>
             </Card>
         </Link>
@@ -50,11 +53,14 @@ const ProductCard = ({ product }: CardPropsType) => {
 }
 
 export default function ProductsComp() {
-    const [products, setProducts] = useState<Product[]>([])
+    const [products, setProducts] = useState<Products[]>([])
 
     useEffect(() => {
-        const prods = generateProductData(9)
-        setProducts(prods)
+        getProductsInCollection().then(res => {
+            console.log(res)
+            const prods:Products[] = res.map((node:any): Products => shopifyDataToProducts(node))
+            setProducts(prods)
+        })
     }, [])
 
     return (
@@ -66,7 +72,7 @@ export default function ProductsComp() {
             <Grid flex={1}>
                 <section className={styles.products_section} >
                     {products.map(product => (
-                        <ProductCard key={product.name} product={product} />
+                        <ProductCard key={product.handle} product={product} />
                     ))}
                 </section>
             </Grid>

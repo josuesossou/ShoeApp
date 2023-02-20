@@ -28,7 +28,7 @@ export const registerUserLocal = async ({
             })
         }
     
-        // api session , moderates the session
+        // for the api session , moderates the session
         await fetch('/api/login', {
             method: 'post',
             body: JSON.stringify(res)
@@ -65,7 +65,6 @@ export const loginUserLocal = async ({
             })
         })).json()
 
-
         if (res.error) {
             return Promise.resolve({
                 success: false,
@@ -92,6 +91,51 @@ export const loginUserLocal = async ({
         })
     }
 
+}
+
+export const resendEmailConfirmation = async ({ 
+    email
+}: AuthCredentials) : Promise<{success: boolean, message: string}> => { 
+
+    const username = email.split('@')[0]
+
+    try {
+        const res = await (await fetch('http://localhost:1337/api/auth/send-email-confirmation', {
+            headers: { 'Content-Type': 'application/json' },
+            method: 'post',
+            body: JSON.stringify({
+                email,
+            })
+        })).json()
+
+        console.log('Email confirmation', res)
+
+        if (res.error) {
+            return Promise.resolve({
+                success: false,
+                message: res.error.message === 'Invalid identifier or password' ?
+                            'Invalid email or password' : 'something went wrong'
+            })
+        }
+
+        // api session , moderates the session
+        await fetch('/api/login', {
+            method: 'post',
+            body: JSON.stringify(res)
+        })
+
+        return Promise.resolve({
+            success: true,
+            message: 'success'
+        })
+
+    } catch (error) {
+        console.log('Email confirmation', error)
+        return Promise.resolve({
+            success: false,
+            message: 'something went wrong'
+        })
+    }
 }
 
 // sending request as authenticated user

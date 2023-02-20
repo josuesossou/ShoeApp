@@ -11,7 +11,6 @@ import { navLinks } from '../../data/navLinks';
 import { useContext, useEffect, useState } from 'react';
 import { PagesContext } from '../../contexts/pagesDataContext';
 
-
 export default function Navbar() {
     const [isOpen, toggleIsOpen] = useState<boolean>(false)
     const [pageData, _] = useContext(PagesContext)
