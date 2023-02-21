@@ -22,7 +22,7 @@ export default function Wrapper({ children, nonav }: any) {
   const swrFetchBag = useSWR(
     !pageData.user? null :
     {
-      url: `http://localhost:1337/api/bags?where={"username":{"$eq":"${pageData.user?.user.username}"}}`,
+      url: `http://localhost:1337/api/bags?filters[username][$eq]=${pageData.user?.user.username}`,
       headers: {Authorization: 'Bearer ' + pageData.user?.jwt},
     },
     fetcher
@@ -41,7 +41,7 @@ export default function Wrapper({ children, nonav }: any) {
     passData({ 
       ...pageData, 
       user, 
-      bag: bag? bag['data'] : []
+      bag: bag? bag['data'].map((bagData: any) => bagData['attributes']) : []
     })
 
     // if (swrFetchBag.data) passData({ 

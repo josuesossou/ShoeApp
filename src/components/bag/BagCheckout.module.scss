@@ -44,7 +44,9 @@
     button {
         border-radius: 0;
         color: black;
-        background-color: rgb(215, 215, 215);
+        background-color: rgb(239, 239, 239);
+        box-shadow: 0 0 0 rgb(0,0,0);
+        transition: all .7s;
     }
 
     button:hover {
@@ -53,8 +55,13 @@
         color: white;
     }
 } 
+
+
 @media (min-width: 55em) {
     .bag {
+        button {
+            font-weight: bolder;
+        }
         >div {
             width: 55em;
         }

@@ -107,7 +107,12 @@ export interface Variant {
 // =========================DATABASE DATA INTERFACES======================
 export interface BagItem {
     username: string,
-    productTag: string 
+    productHandle: string,
+    productSKU: string,
+    productPrice: string,
+    productImageUrl: string,
+    productTitle: string,
+    productVariantTitle: string
 }
 /// issues for orders
 export interface Issue {

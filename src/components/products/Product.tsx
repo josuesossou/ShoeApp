@@ -91,12 +91,12 @@ const Quantity = ({ quantity, increment}: any) => {
 }
 
 const VariantsComp = ({ variants, setCurrentVariant, currentSKU }: 
-                    { 
-                        setCurrentVariant: any, 
-                        variants: Variant[],
-                        currentSKU: string
-                    }
-    ) => {
+    { 
+        setCurrentVariant: any, 
+        variants: Variant[],
+        currentSKU: string
+    }
+) => {
     return (
         <section className={styles.variants}>
             <p>VARIANTS</p>
@@ -108,7 +108,7 @@ const VariantsComp = ({ variants, setCurrentVariant, currentSKU }:
                             <Card 
                                 sx={{ 
                                     outline: currentSKU === variant.sku ? 
-                                            '3px solid  #1976d2' : ''                      
+                                    '3px solid  #1976d2' : ''                      
                                 }} 
                                 className={styles.img_wrapper}
                             >
@@ -127,10 +127,11 @@ const VariantsComp = ({ variants, setCurrentVariant, currentSKU }:
 }
 
 const VariantComp = ({ variant }:{ variant:Variant }) => {
+    console.log(variant)
     return (
         <section>
             
-            {variant.sku && variant.selectedOptions.map(option => (
+            {variant.title !== 'Default Title' && variant.selectedOptions.map(option => (
                 <div key={nanoid(4)}>
                     <small>{option.name}: </small>
                     <small>{option.value}</small>
@@ -141,8 +142,8 @@ const VariantComp = ({ variant }:{ variant:Variant }) => {
             <p className='large-p-text'>${variant.price}</p>
             {variant.availableForSale? (<></>): (
                 <>
-                    <br />
-                    <p>Not Available</p>
+                <br />
+                <p>Not Available</p>
                 </>
             )}
         </section>
@@ -188,12 +189,21 @@ export default function ProductComp() {
         }
         if (!product) return
 
-        if (pageData.bag?.find(item => item.productTag === product.handle)) return
+        if (pageData.bag?.find(item => item.productHandle === product.handle)) return
+
+        if (!variant) return
+
+        if (!variant.availableForSale) return
 
         addProductToBag(
             {
                 username: pageData.user.user.username,
-                productTag: product.handle,
+                productHandle: product.handle,
+                productSKU: variant.sku || '',
+                productPrice: variant.price,
+                productImageUrl: variant.image.url,
+                productTitle: product.title,
+                productVariantTitle: variant.title
             }, 
             pageData.user.jwt
         )
@@ -251,7 +261,7 @@ export default function ProductComp() {
                         variant='contained'
                         onClick={addToBag}
                     >
-                        Add To Bag
+                        {variant?.availableForSale? 'Add To Bag' : 'Not Available'}
                     </Button>
                     <LineDivider thickness={0} />
                     <div>
@@ -286,7 +296,6 @@ export default function ProductComp() {
                             rows={4}
                         />
                     </div>
-                    
                 </div>
             </section>
         </section>
@@ -295,7 +304,7 @@ export default function ProductComp() {
             <h1>RECOMMENDED PRODUCTS</h1>
             <br />
             <br />
-            <Grid container gap={2} alignSelf='center'>
+            <Grid container spacing={2} alignSelf='center'>
                 {additionalProduts && additionalProduts.map(prod => (
                     <Grid xs={4} key={nanoid(4)}>
                         <Card elevation={0} className={styles.img_wrapper}>
