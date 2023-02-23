@@ -10,7 +10,7 @@ export default function Bag() {
   }, [])
 
   return (
-    <Wrapper>
+    <Wrapper noShopAll>
       <BagComp />
     </Wrapper>
   )

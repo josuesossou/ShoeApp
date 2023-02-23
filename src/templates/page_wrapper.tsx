@@ -7,10 +7,22 @@ import { Orbitron } from '@next/font/google'
 import { ReactNode, useContext, useEffect } from 'react'
 import { PagesContext } from '../contexts/pagesDataContext'
 import { fetcher } from '../helpers/api/shared'
+import Link from 'next/link'
+import { Button } from '@mui/material'
 
 const orbitron = Orbitron({ subsets: ['latin'] })
 
-export default function Wrapper({ children, nonav }: any) {
+const ShopAll = () => {
+  return (
+    <Link href='/products' className={styles.shop_all}>
+      <Button variant='contained'>
+        Shop All
+      </Button>
+    </Link>
+  )
+}
+
+export default function Wrapper({ children, nonav, noShopAll }: any) {
   const [pageData, passData] = useContext(PagesContext)
   const swrFetchUser = useSWR(
     {
@@ -70,6 +82,7 @@ export default function Wrapper({ children, nonav }: any) {
             {/* <link rel="icon" href="/favicon.ico" media="(prefered-color-scheme: dark)" /> */}
         </Head>
           {!nonav && <Navbar />}
+          {!noShopAll && <ShopAll />}
           {children}
     </div>
   )

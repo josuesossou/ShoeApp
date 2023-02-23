@@ -3,8 +3,7 @@ import Wrapper from '../src/templates/page_wrapper';
 
 export default function Product() {
     return (
-        <Wrapper>
-        <Navbar />
+        <Wrapper noShopAll>
             account
         </Wrapper>
     )

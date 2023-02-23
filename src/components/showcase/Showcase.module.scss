@@ -12,19 +12,16 @@
     }
 
     a {
-        margin: auto;
-    }
-    button {
-       
-       border-radius: 100%;
-       padding: 1.4em 0;
-       line-height: 0;
-       color: black;
-       border: 0 solid;
+        margin: 2em auto;
 
         svg {
             padding: 0;
             margin: 0;
+            transition: all .5s;
         }
+        svg:hover {
+            font-size: 1.8em;
+        }
+
     }
 }

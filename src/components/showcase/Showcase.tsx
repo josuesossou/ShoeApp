@@ -15,9 +15,7 @@ export default function Showcase () {
             </video>
             {/* <Tooltip title="View Products"> */}
             <Link href='#products'>
-                <Button>
-                    <SouthIcon fontSize='medium' />
-                </Button>
+                <SouthIcon fontSize='medium' />
             </Link>
             {/* </Tooltip> */}
             

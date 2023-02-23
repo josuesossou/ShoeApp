@@ -13,7 +13,7 @@ export const navLinks: NavLink[] = [
         auth: true,
         name: 'Account',
         icon: AccountCircleIcon,
-        link: ''
+        link: '/account'
     },
     {
         auth: true,

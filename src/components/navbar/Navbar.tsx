@@ -10,6 +10,7 @@ import { Badge, Button, List } from '@mui/material';
 import { navLinks } from '../../data/navLinks';
 import { useContext, useEffect, useState } from 'react';
 import { PagesContext } from '../../contexts/pagesDataContext';
+import { Shop } from '@mui/icons-material';
 
 export default function Navbar() {
     const [isOpen, toggleIsOpen] = useState<boolean>(false)
@@ -45,13 +46,18 @@ export default function Navbar() {
 
             </Grid>
             
-            <Link href='/products' className={styles.shop_all}>
+            {/* <Link href='/products' className={styles.shop_all}>
                 <Button variant='outlined'>
                     Shop All
                 </Button>
-            </Link>
+            </Link> */}
 
             <List className={styles.list}>
+                <ListNavItem
+                    name={'Shop All'}
+                    icon={Shop}
+                    link={'/products'}
+                />
                 <ListNavItem
                     name={'Bag'}
                     icon={LocalMallIcon}

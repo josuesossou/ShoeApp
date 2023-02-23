@@ -4,7 +4,7 @@ import Wrapper from '../src/templates/page_wrapper';
 
 export default function Checkout() {
     return (
-        <Wrapper nonav>
+        <Wrapper nonav noShopAll>
             <CheckoutComp />
         </Wrapper>
     )

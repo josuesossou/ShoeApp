@@ -21,3 +21,17 @@
         font-size: 1.2rem;
     }
 }
+
+.shop_all {
+    position: fixed;
+    bottom: 2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    opacity: .3;
+    transition: all .7s;
+}
+
+.shop_all:hover {
+    opacity: 1;
+}

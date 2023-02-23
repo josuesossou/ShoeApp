@@ -1,6 +1,6 @@
 import { Tabs, Tab } from "@mui/material";
 import { Action } from "../../helpers/types";
-import styles from './TabIndicator.module.scss'
+import styles from './Common.module.scss'
 
 type PropsType = {
     tabs: Action[],
