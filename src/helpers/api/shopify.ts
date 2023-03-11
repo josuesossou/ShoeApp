@@ -146,33 +146,11 @@ export async function getProduct(handle: any) {
     return product;
 }
 
-export async function createProduct(id: string, quantity: number) {
-    const query = `
-      mutation {
-        checkoutCreate(input: {
-          lineItems: [{ variantId: "${id}", quantity: ${quantity}}]
-        }) {
-          checkout {
-            id
-            webUrl
-          }
-        }
-    }`;
-  
-    const response = await ShopifyData(query);
-  
-    const checkout = response.data.checkoutCreate.checkout
-      ? response.data.checkoutCreate.checkout
-      : [];
-  
-    return checkout;
-}
-
-export async function createOrder(id: any, quantity: any) {
+export async function checkout(listItems: string) {
     const query = `
         mutation {
-            orderCreate(input: {
-                lineItems: [{ variantId: , quantity: 1}]
+            checkoutCreate(input: {
+                lineItems: ${listItems}
             }) {
                 checkout {
                     id
@@ -183,6 +161,8 @@ export async function createOrder(id: any, quantity: any) {
     `;
   
     const response = await ShopifyData(query);
+
+    console.log('Create Order Respons', response)
   
     const checkout = response.data.checkoutCreate.checkout
       ? response.data.checkoutCreate.checkout
@@ -190,3 +170,30 @@ export async function createOrder(id: any, quantity: any) {
   
     return checkout;
 }
+
+// export async function createOrder(id: any, quantity: any) {
+//     const query = `
+//         mutation {
+//             orderCreate(input: {
+//                 lineItems: [{ variantId: 44554545955120, quantity: 1}],
+                
+                
+//             }) {
+//                 checkout {
+//                     id
+//                     webUrl
+//                 }
+//             }
+//         }
+//     `;
+  
+//     const response = await ShopifyData(query);
+
+//     console.log('Create Order Respons', response)
+  
+//     const checkout = response.data.checkoutCreate.checkout
+//       ? response.data.checkoutCreate.checkout
+//       : [];
+  
+//     return checkout;
+// }

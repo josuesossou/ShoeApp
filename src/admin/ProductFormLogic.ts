@@ -3,7 +3,7 @@ import { NextRouter, useRouter } from "next/router"
 import { Dispatch, FormEvent, useContext } from "react"
 import { addProduct, uploadImage, uploadImages } from "../helpers/api/products"
 import { lenghtToArray } from "../helpers/helpers"
-import { Product } from "../helpers/types"
+import { Product2 } from "../helpers/types"
 
 export const UPDATE_NAME = 'update name'
 export const UPDATE_IS_FEATURED = 'update isfeatured'
@@ -159,7 +159,7 @@ export default function formSubmitHandler (
     if (sideImages.value) uploadImages(sideImages.value, sideImagesName)
 
     // constructing product data
-    const product: Product = {
+    const product: Product2 = {
         tag: nanoid(8),
         name: name.value,
         description: description.value,

@@ -14,7 +14,7 @@ type PropsType = {
 
 
 export default function ProductReviewSection() {
-    const productReviews = useContext(AdminContext)?.productReviews || []
+    const productReviews = useContext(AdminContext)?.reviews || []
     const [productReviewValue, setProductReviewValue] = useState<Action>(productReviews[0])
     const queryHandler = (e:any) => {
         console.log(e.target.value)

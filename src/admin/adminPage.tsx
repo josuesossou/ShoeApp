@@ -38,14 +38,14 @@ export default function AdminPage({ adminData }: PropsType) {
                             </Grid>
 
                             <Grid item>
-                                {sidebarLinkValue.action === 'products' && 
+                                {/* {sidebarLinkValue.action === 'products' && 
                                     !showAddProductForm &&
                                     <Button variant="outlined"
                                         onClick={addNewProductHandler}
                                     >
                                         Add New Product
                                     </Button>
-                                }
+                                } */}
                                 {showAddProductForm &&
                                     <Button variant="outlined" onClick={closeNewProductHandler} color='error'>
                                         Close

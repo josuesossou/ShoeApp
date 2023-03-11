@@ -77,6 +77,12 @@ export default function AuthComp() {
         formHandler(e, state, dispatch, isLogin, router, pageData, passData)
     }
 
+    if (pageData.user) return (
+        <Grid container alignItems='center' justifyContent='center'>
+            <p>Logged in as {pageData.user.user.username}</p>
+        </Grid>
+    )
+    
     return (
         <Grid container flexDirection='column' alignItems='center' justifyContent='center' className={styles.auth}>
             <Grid item sx={{ width: '25em' }}>

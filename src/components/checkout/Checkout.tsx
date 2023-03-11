@@ -6,6 +6,7 @@ import { useContext, useEffect } from 'react';
 import { PagesContext } from '../../contexts/pagesDataContext';
 import { ItemCard, LineDivider } from '../common/Common';
 import { nanoid } from 'nanoid';
+import { Button } from '@mui/material';
 
 export default function CheckoutComp() {
     const [pageData, passData] = useContext(PagesContext)

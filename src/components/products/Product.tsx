@@ -203,7 +203,9 @@ export default function ProductComp() {
                 productPrice: variant.price,
                 productImageUrl: variant.image.url,
                 productTitle: product.title,
-                productVariantTitle: variant.title
+                productVariantTitle: variant.title,
+                variantID: variant.id,
+                quantity
             }, 
             pageData.user.jwt
         )
@@ -260,6 +262,7 @@ export default function ProductComp() {
                         style={{ width: '100%' }} 
                         variant='contained'
                         onClick={addToBag}
+                        disabled={variant?.availableForSale? false : true}
                     >
                         {variant?.availableForSale? 'Add To Bag' : 'Not Available'}
                     </Button>

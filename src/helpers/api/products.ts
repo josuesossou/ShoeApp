@@ -1,7 +1,7 @@
 // const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 import { lenghtToArray } from "../helpers"
-import { Product } from "../types"
+import { Product2 } from "../types"
 
 export const uploadImage = (file: FileList, name:string) => { 
     const form = new FormData()
@@ -27,7 +27,7 @@ export const uploadImages = (files: FileList, name:string) => {
     })
 }
 
-export const addProduct = (product: Product) => { 
+export const addProduct = (product: Product2) => { 
     fetch('http://localhost:1337/api/products', {
         headers: { 'Content-Type': 'application/json' },
         method: 'post',

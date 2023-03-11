@@ -1,17 +1,15 @@
 
 import styles from './BagCheckout.module.scss'
-import Link from 'next/link';
-import Grid from '@mui/material/Unstable_Grid2';
-import shoe9 from '../../assets/images/shoe9.png'
-import { Badge, Button, Card, CardContent, Skeleton } from '@mui/material';
-import { useContext, useState } from 'react';
-import { Close } from '@mui/icons-material';
+import Grid from '@mui/material/Unstable_Grid2'
+import { Button, Card, CardContent } from '@mui/material';
+import { useContext } from 'react';
 import { PagesContext } from '../../contexts/pagesDataContext';
 import { BagItem } from '../../helpers/types';
 import { nanoid } from 'nanoid';
-import { ItemCard } from '../common/Common';
-
-
+import { BagItemCard } from '../common/Common';
+import { checkout } from '../../helpers/api/shopify';
+import { getListItems } from '../../helpers/helpers';
+import { useRouter } from 'next/router';
 
 const totalPrice = (bagItems: BagItem[]): number => {
     let total = 0
@@ -22,13 +20,39 @@ const totalPrice = (bagItems: BagItem[]): number => {
         total += Number(item.productPrice) 
     })
 
-    console.log('newBgItem',total)
-
     return total
 }
 
 export default function BagComp() {
-    const [pageData, passData] = useContext(PagesContext)
+    const [pageData, _] = useContext(PagesContext)
+    const router = useRouter()
+
+    const goToCheckout = () => {
+        const itemList:string = getListItems(pageData.bag!)
+        checkout(itemList)
+        .then((data) => {
+            location.href = data.webUrl
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+
+    if (!pageData.bag || pageData.bag.length < 1) {
+        return (
+            <section className={styles.bag}>
+                <Grid 
+                    container 
+                    flexDirection='column' 
+                    alignItems='center'
+                >
+                    <h1>Your Bag</h1>
+                    <br />
+                    <p>You do not have any item in your bag</p>
+                </Grid>
+            </section>
+        )
+    }
 
     return (
         <section className={styles.bag}>
@@ -36,12 +60,11 @@ export default function BagComp() {
                 container 
                 flexDirection='column' 
                 alignItems='center'
-                
             >
                 <h1>Your Bag</h1>
 
                 {pageData.bag?.map(bagItem => (
-                    <ItemCard 
+                    <BagItemCard 
                         key={nanoid(4)}
                         bagItem={bagItem} 
                     />
@@ -56,12 +79,13 @@ export default function BagComp() {
                 </Card>
 
                 <br />
-                <Link href='/checkout'>
-                    <Button fullWidth variant='contained' >
-                        Check Out ${totalPrice(pageData.bag || [])}
-                    </Button>
-                </Link>
-
+                <Button 
+                    fullWidth 
+                    variant='contained'
+                    onClick={goToCheckout}
+                >
+                    Check Out ${totalPrice(pageData.bag || [])}
+                </Button>
             </Grid>
         </section>
     )

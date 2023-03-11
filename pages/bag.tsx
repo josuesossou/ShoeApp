@@ -4,10 +4,10 @@ import { PagesContext } from '../src/contexts/pagesDataContext';
 import Wrapper from '../src/templates/page_wrapper';
 
 export default function Bag() {
-  const [pageData, _] = useContext(PagesContext)
-  useEffect(() => {
-    if (!pageData.user) location.replace('/auth')
-  }, [])
+  // const [pageData, _] = useContext(PagesContext)
+  // useEffect(() => {
+  //   if (!pageData.user) location.replace('/auth')
+  // }, [])
 
   return (
     <Wrapper noShopAll>

@@ -9,7 +9,7 @@ export default function Auth() {
     if (pageData.user) location.replace('/')
   }, [])
   return (
-    <Wrapper>
+    <Wrapper noShopAll>
         <AuthComp />
     </Wrapper>
   )

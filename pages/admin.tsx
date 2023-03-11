@@ -10,7 +10,7 @@ type PropsType = {
 }
 export default function Admin({ adminData }: PropsType) {
   return (
-    <Wrapper>
+    <Wrapper noShopAll>
         <AdminPage adminData={adminData}/>
     </Wrapper>
   )

@@ -1,9 +1,10 @@
-import { Button, Card, CardContent, Divider } from "@mui/material"
+import { Button, Card, CardContent, Divider, Grid } from "@mui/material"
 import { ReactNode } from "react"
 import { BagItem } from '../../helpers/types';
+import { Close } from "@mui/icons-material";
 import Image from 'next/image'
 import styles from './Common.module.scss'
-import { Close } from "@mui/icons-material";
+// import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 interface DividerProps {
     thickness?: number,
@@ -20,7 +21,7 @@ export const LineDivider = ({ thickness=1, orientation, children }: DividerProps
     )
 }
 
-export const ItemCard = ({ 
+export const BagItemCard = ({ 
     bagItem, 
     noCloseBtn,
     small
@@ -29,12 +30,7 @@ export const ItemCard = ({
     noCloseBtn?: boolean
     small?: boolean
 }) => {
-    // const swrFetchProduct = useSWR({
-    //     url: `/api/product:${bagItem.productHandle}`, 
-    // }, fetcher)
 
-    // if (!swrFetchProduct.data) return <Skeleton variant="rectangular" className={styles.skeleton} />
-    console.log('bagItem', bagItem)
     return (
         <Card className={styles.bagCard} elevation={small? 0:1}>
             {bagItem && 
@@ -58,7 +54,11 @@ export const ItemCard = ({
                     {!small && <br />}
                     <p>${bagItem.productPrice}</p>
                 </div>
-                <p style={{ color: 'grey', marginTop: '.5em' }}>SKU:{bagItem.productSKU}</p>
+                <Grid container justifyContent='space-between'>
+                    <p className={styles.p}>SKU: {bagItem.productSKU}</p>
+                    <p className={styles.p}>Quantity: {bagItem.quantity}</p>
+                </Grid>
+
             </CardContent>
 
             {bagItem && !noCloseBtn &&

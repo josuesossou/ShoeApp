@@ -1,6 +1,6 @@
 
 
-import { Product } from "./types"
+import { Product, Product2 } from "./types"
 
 
 const getRandomFromList = (list:any[]) => {
@@ -44,7 +44,7 @@ const getRandomName = () => {
 
 
 export const generateProductData = (amount:number) => {
-    let products: Product[] = []
+    let products: Product2[] = []
 
     for (let i=0; i < amount; i++) {
         const bools = [false, true]
@@ -54,7 +54,7 @@ export const generateProductData = (amount:number) => {
         let type: 'comingSoon' | 'orderNow' | 'linked' | 'unPublished' = getRandomFromList(['comingSoon', 'orderNow', 'linked'])
         let parallax: 'zoomIn' | 'zoomOut' | 'normal' | 'none' = getRandomFromList(['zoomIn', 'zoomOut', 'normal', 'none'])
         let date = new Date()
-        const product:Product = {
+        const product:Product2 = {
             // id: i.toString(),
             tag: i.toString(),
             isSolid: solid,

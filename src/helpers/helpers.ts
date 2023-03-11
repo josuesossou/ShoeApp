@@ -1,4 +1,4 @@
-import { Price, Product, Products } from "./types"
+import { BagItem, Price, Product, Products } from "./types"
 
 export const lenghtToArray = (length: number) => {
     let arr = []
@@ -49,6 +49,18 @@ export const shopifyDataToProducts = ({ node }:any):Products => ({
     price: node['priceRange']['minVariantPrice']['amount'],
     image: node['images']['edges'][0]['node']
 })
+
+// [{ variantId: 44554545955120, quantity: 1}]
+export const getListItems = (bagItems: BagItem[]) : string => {
+    let lineItems = '['
+
+    for (const item of bagItems) {
+        lineItems += `{variantId: "${item.variantID}", quantity: ${item.quantity}}`
+    }
+
+    lineItems += ']'
+    return lineItems
+}
 
 export const emailPattern =/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 export const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/

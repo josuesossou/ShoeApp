@@ -39,7 +39,16 @@ export default function Navbar() {
                 <Logo />
 
                 <Badge badgeContent={pageData.bag?.length || 0} color="primary">
-                    <Button onClick={openNav} sx={{ width: '5em' }}>
+                    <Button 
+                        onClick={openNav} 
+                        sx={{ 
+                            width: '5em',
+                            
+                        }}
+                        style={{
+                            color: pageData.user? '#1976d2' : '',
+                        }}
+                    >
                         {isOpen? 'Close' : 'Menu'}
                     </Button>
                 </Badge>
@@ -66,6 +75,16 @@ export default function Navbar() {
                 {navLinks.map(navItem => {
                     if (pageData.user && !navItem.auth) return
                     if (!pageData.user && navItem.auth) return
+                    if (navItem.name === 'Account') return (
+                        <ListNavItem
+                            key={navItem.name}
+                            name={`${navItem.name} for ${pageData.user?.user.username}`}
+                            icon={navItem.icon}
+                            link={navItem.link}
+                            action={navItem.action}
+                        />
+                    )
+                    
                     return (
                         <ListNavItem
                             key={navItem.name}

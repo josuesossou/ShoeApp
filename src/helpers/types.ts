@@ -59,19 +59,17 @@ export interface Action {
 
 export interface AdminData {
     sidebarLinks: Action[],
-    orders: Action[],
-    products: Action[],
-    purchases: Action[],
+    // orders: Action[],
+    showcase: Action[],
+    // purchases: Action[],
     users: Action[],
-    productReviews: Action[]
+    reviews: Action[]
 }
-
 export interface FormValue<T> {
     value: T,
     error: boolean,
     errorMessage?: string
 }
-
 export interface PageData {
     user?: {jwt: string, user: any} | null
     flashMessage?: {
@@ -81,7 +79,6 @@ export interface PageData {
     } | null,
     bag?: BagItem[] | null
 }
-
 // sidebarLinks,
 // orders,
 // productReviews,
@@ -103,7 +100,6 @@ export interface Variant {
     sku: string
 }
 
-
 // =========================DATABASE DATA INTERFACES======================
 export interface BagItem {
     username: string,
@@ -112,18 +108,12 @@ export interface BagItem {
     productPrice: string,
     productImageUrl: string,
     productTitle: string,
-    productVariantTitle: string
-}
-/// issues for orders
-export interface Issue {
-    id: string,
-    userId: string,
-    orderId: string, // links to order
-    need: 'refund' | 'not received' | 'problem',
-    reason: string,
-    resolved: boolean
+    productVariantTitle: string,
+    variantID: string,
+    quantity: number
 }
 
+// for shopify product data type
 export interface Products {
     handle: string,
     id: string,
@@ -132,7 +122,7 @@ export interface Products {
     tags: string[],
     title: string
 }
-
+// for shopify product data type
 export interface Product {
     id: string,
     title:string,
@@ -144,7 +134,32 @@ export interface Product {
     tags: string[]
 }
 
+// for admin users from strapi
+export interface User {
+    id: string,
+    first: string,
+    last: string,
+    fullName: string, // searchable, since it's only lowercased
+    email: string,
+    accountinterface: string,
+    profileImage: string,
+}
+// for admin from strapi
+export interface Review {
+    id: string,
+    userId: string,
+    userFullName: string,
+    productId: string,
+    productTag: string,
+    reviewText: string,
+    productRating: number,
+    createdAt: string,
+    dateTime: number,
+    timezome: string,
+}
 
+
+//*******Product2, Issue, Order data types are not being used ****/
 // can be updated
 export interface Product2 {
     id?: string,
@@ -169,7 +184,14 @@ export interface Product2 {
     rating: number,
     // productKind: 'shoes' | 'clothes' //for size chart and filtering
 }
-
+export interface Issue {
+    id: string,
+    userId: string,
+    orderId: string, // links to order
+    need: 'refund' | 'not received' | 'problem',
+    reason: string,
+    resolved: boolean
+}
 // can be updated. order is created after a purchase was made
 export interface Order {
     id: string,
@@ -186,7 +208,6 @@ export interface Order {
     pricePaid: Price,
     discount: boolean | number
 }
-
 // can't be modified, only Read and Write once. Verifies that the user paid for the product
 export interface Purchase {
     id: string,
@@ -198,27 +219,4 @@ export interface Purchase {
     userName: string // both first and last
     dateTime: number,
     location?: string,
-}
-
-export interface User {
-    id: string,
-    first: string,
-    last: string,
-    fullName: string, // searchable, since it's only lowercased
-    email: string,
-    accountinterface: string,
-    profileImage: string,
-}
-
-export interface Review {
-    id: string,
-    userId: string,
-    userFullName: string,
-    productId: string,
-    productTag: string,
-    reviewText: string,
-    productRating: number,
-    createdAt: string,
-    dateTime: number,
-    timezome: string,
 }
