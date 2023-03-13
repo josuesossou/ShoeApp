@@ -26,7 +26,6 @@ export const uploadImages = (files: FileList, name:string) => {
         body: form
     })
 }
-
 export const addProduct = (product: Product2) => { 
     fetch('http://localhost:1337/api/products', {
         headers: { 'Content-Type': 'application/json' },

@@ -5,15 +5,13 @@ const adminData = localAdminData
 
 export function getAdminData():AdminData {
     const { sidebarLinks, tabLinks} = adminData
-    const { orders, productReviews, products, purchases, users } = tabLinks
+    const { reviews, showcase, users } = tabLinks
 
     const data: AdminData = {
         sidebarLinks,
-        orders,
-        products,
-        purchases,
+        showcase,
         users,
-        productReviews
+        reviews
     }
     
     return data

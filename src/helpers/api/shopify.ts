@@ -175,9 +175,7 @@ export async function checkout(listItems: string) {
 //     const query = `
 //         mutation {
 //             orderCreate(input: {
-//                 lineItems: [{ variantId: 44554545955120, quantity: 1}],
-                
-                
+//                 lineItems: [{ variantId: 44554545955120, quantity: 1}],         
 //             }) {
 //                 checkout {
 //                     id

@@ -74,7 +74,7 @@ export default function ProductReviewSection() {
                 />
             </Grid>
             <Grid item xs={3}>
-                <DynamicTextField setQuery={queryHandler} />
+                {/* <DynamicTextField setQuery={queryHandler} /> */}
             </Grid>      
             <Grid item xs={12} py={4}>
                 {productReviewValue.label}

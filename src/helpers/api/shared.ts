@@ -1,2 +1,11 @@
-export const fetcher = (args: {url: string, headers: HeadersInit | undefined}) => 
-                        fetch(args.url, { headers: args.headers }).then(res => res.json())
+export const fetcher = (
+    args: {
+        url: string,
+        headers?: HeadersInit,
+        option?: any
+    }
+) => fetch(
+    args.url,
+    { headers: args.headers || null, ...args.option }
+)
+.then(res => res.json())

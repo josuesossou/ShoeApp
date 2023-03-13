@@ -20,7 +20,7 @@ export default function SideNav({ setSidebarLinkValue }: PropsType) {
                 orientation="vertical"
                 value={value}
                 setValue={setSidebarLinkValue}
-                hideIndicator
+                // hideIndicator
             />
         </section>
     )

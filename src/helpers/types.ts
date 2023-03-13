@@ -1,35 +1,10 @@
 import { MouseEventHandler, ReactNode } from "react"
 
 // ==========================HELPER INTERFACES=======================
-interface SideImage {
-    solid: true,
-    solidImage: string,
-    fgImage: string,
-    bgImage: string
-}
-interface Featured {
-    isFeatured: boolean,
-    parallax: 'zoomIn' | 'zoomOut' | 'normal', // values can only be 'zoomIn', 'zoomOut', 'normal'
-    pageOrder: number // order to be shown on the page
-}
-
 export interface Image {
     url: string,
     altText: null | string
 }
-
-export interface Price {
-    whole: number, // example $99.75 becomes whole: 99 decimal 75
-    decimal: number
-}
-
-
-// interface interfaceofProduct {
-//     value: 'commingSoon' | 'orderNow' | 'linked' | 'unPublished', // values cna only be 'commmingSoon' | 'orderNOw' | 'linked'
-//     price: Price,
-//     link: string
-// }
-
 // =========================FRONTEND UI INTERFACES=======================
 export interface AuthCredentials {
     email: string,
@@ -56,12 +31,10 @@ export interface Action {
     action: string,
     searchable?: boolean
 }
-
+// admin data for the admin page
 export interface AdminData {
     sidebarLinks: Action[],
-    // orders: Action[],
     showcase: Action[],
-    // purchases: Action[],
     users: Action[],
     reviews: Action[]
 }
@@ -70,6 +43,8 @@ export interface FormValue<T> {
     error: boolean,
     errorMessage?: string
 }
+
+// for passing data between pages. find in template
 export interface PageData {
     user?: {jwt: string, user: any} | null
     flashMessage?: {
@@ -86,6 +61,9 @@ export interface PageData {
 // purchases,
 // users
 
+
+
+// =========================DATABASE DATA INTERFACES======================
 // Interface for Variant
 export interface Variant {
     id: string,
@@ -100,7 +78,6 @@ export interface Variant {
     sku: string
 }
 
-// =========================DATABASE DATA INTERFACES======================
 export interface BagItem {
     username: string,
     productHandle: string,
@@ -134,6 +111,14 @@ export interface Product {
     tags: string[]
 }
 
+export interface Showcase {
+    imageURL: string,
+    sku: string,
+    handle: string,
+    description: string,
+    title: string
+}
+
 // for admin users from strapi
 export interface User {
     id: string,
@@ -161,6 +146,12 @@ export interface Review {
 
 //*******Product2, Issue, Order data types are not being used ****/
 // can be updated
+
+export interface Price {
+    whole: number, // example $99.75 becomes whole: 99 decimal 75
+    decimal: number
+}
+
 export interface Product2 {
     id?: string,
     tag: string,
@@ -219,4 +210,16 @@ export interface Purchase {
     userName: string // both first and last
     dateTime: number,
     location?: string,
+}
+
+interface SideImage {
+    solid: true,
+    solidImage: string,
+    fgImage: string,
+    bgImage: string
+}
+interface Featured {
+    isFeatured: boolean,
+    parallax: 'zoomIn' | 'zoomOut' | 'normal', // values can only be 'zoomIn', 'zoomOut', 'normal'
+    pageOrder: number // order to be shown on the page
 }

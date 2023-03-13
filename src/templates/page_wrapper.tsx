@@ -2,12 +2,12 @@ import Head from 'next/head'
 import styles from './Templates.module.scss'
 import useSWR from 'swr'
 import Navbar from '../components/navbar/Navbar'
+import Link from 'next/link'
 
 import { Orbitron } from '@next/font/google'
-import { ReactNode, useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { PagesContext } from '../contexts/pagesDataContext'
 import { fetcher } from '../helpers/api/shared'
-import Link from 'next/link'
 import { Button } from '@mui/material'
 
 const orbitron = Orbitron({ subsets: ['latin'] })

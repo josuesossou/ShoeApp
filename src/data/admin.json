@@ -23,8 +23,8 @@
                 "action": "allShowcase"
             },
             {
-                "label": "Addd New",
-                "action": "showcaseProduct"
+                "label": "Add New",
+                "action": "addNew"
             }
         ],
         "users": [
