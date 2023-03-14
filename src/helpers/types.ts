@@ -116,7 +116,8 @@ export interface Showcase {
     sku: string,
     handle: string,
     description: string,
-    title: string
+    title: string,
+    enabled: boolean
 }
 
 // for admin users from strapi

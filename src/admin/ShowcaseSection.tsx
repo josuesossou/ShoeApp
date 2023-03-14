@@ -1,48 +1,101 @@
 import { Button, CircularProgress, Grid, Input, Paper } from "@mui/material"
 import { GridColDef, GridEventListener, GridValueGetterParams } from "@mui/x-data-grid"
 import { useContext, useEffect, useState } from "react"
-import { AdminContext } from "../contexts/adminPageContext"
+import { AdminContext, ShowcaseContext } from "../contexts/adminPageContext"
 import { generateProductData } from "../helpers/testDataGenerator"
-import { Action, Product, Product2, Products, Showcase } from "../helpers/types"
+import { Action, Products, Showcase } from "../helpers/types"
 import { fetcher } from "../helpers/api/shared"
 import { getProductsInCollection } from "../helpers/api/shopify"
-import { shopifyDataToProducts } from "../helpers/helpers"
+import { getHandles, shopifyDataToProducts } from "../helpers/helpers"
 import styles from './AdminComponents.module.scss'
 import DynamicDataTable from "./DynamicDataTable"
 import DynamicTab from "../components/common/DynamicTab"
 import DynamicTextField from "./DynamicTextField"
 import useSWR, { SWRResponse } from 'swr'
 import Image from "next/image"
+import { saveShowcase } from "../helpers/api/strapi"
+import { PagesContext } from "../contexts/pagesDataContext"
 
 
 type ShowcasePropsType = {
     showcase: Showcase
 }
 type ProductPropsType = {
-    product: Products
+    product: Products,
+    token: string,
+    status: boolean
 }
 type AllShowcasePropsType = {
-    showcaseData: any
+    showcaseData: Showcase[]
 }
+
+/** API interaction Functions */
+const addShowcase = (product: Products, token: string) => {
+    const showcase: Showcase = {
+        description: '',
+        enabled: false,
+        handle: product.handle,
+        imageURL: product.image.url,
+        sku: '',
+        title: product.title
+    }
+
+    return saveShowcase(showcase, token)
+}
+
 //** Cards */
 const ShowcaseCard = ({ showcase }: ShowcasePropsType) => {
     return (
         <Paper>
-            <h2>{showcase.title}</h2>
-            <p>{showcase.handle}</p>
-            <p>{showcase.description}</p>
-            {showcase.toString()}
-            <Button variant="outlined">
-                Edit
-            </Button>
-            <Button variant="contained" color="error">
-                Delete
-            </Button>
+            <Grid 
+                container 
+                my={1} p={2} 
+                justifyContent='space-between'
+                className={styles.products_card}
+            >
+                <div style={{ display: 'flex'}}>
+                    <Image
+                        alt=''
+                        src={showcase.imageURL}
+                        width={100}
+                        height={110}
+                    />
+                    <div style={{  marginLeft: '1em'}}>
+                        <h2>{showcase.title}</h2>
+                        <small>{showcase.handle}</small>
+                    </div>
+                    
+                </div>
+                <div>
+                    <Button 
+                        variant="outlined"
+                        // onClick={}
+                    >
+                        Enable
+                    </Button>
+                    <br /><br />
+                    <Button 
+                        variant="contained"
+                        color="error"
+                        // onClick={}
+                    >
+                        Remove
+                    </Button>
+                </div>
+            </Grid>
         </Paper>
     )
 }
 
-const ProductCard = ({ product }: ProductPropsType) => {
+const ProductCard = ({ product, token, status }: ProductPropsType) => {
+    const [isAdded, isAddedHandler] = useState(status)
+
+    const addNew = () => {
+        addShowcase(product, token).then(res => {
+            isAddedHandler(res.success)
+        })
+    }
+
     return (
         <Paper>
             <Grid 
@@ -65,13 +118,15 @@ const ProductCard = ({ product }: ProductPropsType) => {
                     
                 </div>
                 
-                {/* <p>{product.description}</p> */}
-                {false? (
-                <p style={{ alignSelf: 'center'}}>
-                    Added
-                </p>
+                {isAdded? (
+                    <p style={{ alignSelf: 'center'}}>
+                        Added
+                    </p>
                 ) : (
-                    <Button variant="outlined">
+                    <Button 
+                        variant="outlined"
+                        onClick={addNew}
+                    >
                         Add
                     </Button>
                 )}
@@ -83,34 +138,19 @@ const ProductCard = ({ product }: ProductPropsType) => {
 
 //** Tabs Components */
 const AllShowcase = ({ showcaseData }: AllShowcasePropsType) => {
-    // const fetchShowcase = useSWR(
-    //     {
-    //         url: 'http://localhost:1337/api/showcase',
-    //     },
-    //     fetcher
-    // )
-
-    // if (fetchShowcase.isLoading) return (
-    //     <CircularProgress />
-    // )
-
-    // if (!fetchShowcase.data) return (
-    //     <p>
-    //         No Poduct was added to showcase
-    //     </p>
-    // )
-
     return (
         <Grid container>
-            {/* {} */}
-            {showcaseData.map((data: any) => (
-                <ShowcaseCard showcase={data} />
+            {showcaseData.map((showcase) => (
+                <Grid key={showcase.handle} item xs={12}>
+                    <ShowcaseCard showcase={showcase} />
+                </Grid>
             ))}
         </Grid>
     )
 }
 
-const AddNewShowcase = ({ handles }: any) => {
+const AddNewShowcase = ({ handles, token }: 
+        { handles: string[], token: string}) => {
     const [products, setProducts] = useState<Products[]>([])
     
     useEffect(() => {
@@ -122,23 +162,15 @@ const AddNewShowcase = ({ handles }: any) => {
         })
     }, [])
 
-    // if (fetchShowcase.isLoading) return (
-    //     <CircularProgress />
-    // )
-    // console.log(fetchShowcase)
-
-    // if (!fetchShowcase.data) return (
-    //     <p>
-    //         No Data
-    //     </p>
-    // )
-
     return (
         <Grid container>
-            {/* {} */}
             {products.map((prod: Products) => (
                 <Grid key={prod.handle} item xs={12}>
-                    <ProductCard product={prod} />
+                    <ProductCard 
+                        product={prod} 
+                        token={token} 
+                        status={handles.includes(prod.handle)} 
+                    />
                 </Grid>
             ))}
         </Grid>
@@ -149,19 +181,14 @@ export default function ShowcaseSection() {
     const tabs = useContext(AdminContext)?.showcase || []
     const [tabValue, setTabValue] = useState<Action>(tabs[0])
     const [handles, setHandles] = useState<any[]>([]) //all showcase handles added in strapi
-
-    const fetchShowcase = useSWR(
-        {
-            url: 'http://localhost:1337/api/showcase',
-        },
-        fetcher
-    )
+    const [pageData, _] = useContext(PagesContext)
+    const showcaseData = useContext(ShowcaseContext)
 
     useEffect(() => {
-        if (fetchShowcase.data) {
-            setHandles(fetchShowcase.data)
-        }
-    }, [fetchShowcase.isLoading])
+        console.log(handles, 'Handles')
+        console.log(showcaseData, 'ShowcaseData')
+        setHandles(getHandles(showcaseData))
+    }, [showcaseData])
 
     return (
         <Grid container >
@@ -177,19 +204,20 @@ export default function ShowcaseSection() {
 
             <Grid item xs={12} pr={2}>
                 {tabValue.action === 'allShowcase' && (
-                    fetchShowcase.isLoading?
-                        <CircularProgress />
-                    :
-                    !fetchShowcase.data? (
+                    showcaseData.length === 0? (
                         <p>
                             No Poduct was added to showcase
                         </p>
                     )
                     :
-                    <AllShowcase showcaseData={fetchShowcase.data}/>
+                    <AllShowcase showcaseData={showcaseData}/>
                 )}
                 {tabValue.action === 'addNew' &&
-                    <AddNewShowcase handles={handles} />}
+                    <AddNewShowcase 
+                        handles={handles} 
+                        token={pageData.user?.jwt || ''}
+                    />
+                }
             </Grid>
         </Grid>
     )

@@ -37,7 +37,6 @@ export default function PagesData({ children }: any) {
             {pageData.flashMessage?.show && (
                 <FlashMessage />
             )}
-            
             {children}
         </PagesContext.Provider>
     )

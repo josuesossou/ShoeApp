@@ -27,6 +27,12 @@ export default function Wrapper({ children, nonav, noShopAll }: any) {
   const swrFetchUser = useSWR(
     {
       url: '/api/user', 
+      option: {
+        headers: { 
+          'Content-Type': 'application/json',
+        },
+        method: 'get',
+      }
     },
     fetcher
   )
@@ -43,15 +49,19 @@ export default function Wrapper({ children, nonav, noShopAll }: any) {
     const user = swrFetchUser.data
     const bag = swrFetchBag.data
 
+    console.log('User',user)
+    // console.log('Bag',bag)
+
     if (user && !user['user']['confirmed']) {
       console.log(user)
       location.replace(`/non-verified-user/${user['user']['email']}`)
       return
     }
+
     passData({ 
       ...pageData, 
       user, 
-      bag: bag? bag['data'].map((bagData: any) => bagData['attributes']) : []
+      bag: bag && bag['data']? bag['data'].map((bagData: any) => bagData['attributes']) : []
     })
   }, [swrFetchUser.isLoading, swrFetchBag.isLoading])
 

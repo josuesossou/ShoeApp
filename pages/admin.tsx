@@ -3,6 +3,7 @@ import AdminPage from '../src/admin/AdminPage';
 import Navbar from '../src/components/navbar/Navbar';
 import { getAdminData } from '../src/helpers/getLocalData';
 import { AdminData } from '../src/helpers/types';
+import AdminGuard from '../src/templates/admin_guard';
 import Wrapper from '../src/templates/page_wrapper';
 
 type PropsType = {
@@ -10,9 +11,9 @@ type PropsType = {
 }
 export default function Admin({ adminData }: PropsType) {
   return (
-    <Wrapper noShopAll>
+    <AdminGuard>
         <AdminPage adminData={adminData}/>
-    </Wrapper>
+    </AdminGuard>
   )
 }
 

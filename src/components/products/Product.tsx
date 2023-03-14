@@ -12,7 +12,7 @@ import { Button, Card, Rating, Stack, TextField } from '@mui/material'
 import { generateProductData } from '../../helpers/testDataGenerator'
 import { shoeSizes } from '../../data/productSizes'
 import { useRouter } from 'next/router'
-import { addProductToBag } from '../../helpers/api/bags'
+import { addProductToBag } from '../../helpers/api/strapi'
 import { getProduct } from '../../helpers/api/shopify'
 import { nanoid } from 'nanoid'
 

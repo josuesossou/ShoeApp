@@ -26,7 +26,7 @@ export default function Navbar() {
     // useEffect(() => {
     //     console.log('PAGE DATA', pageData)
     //     // getProductsInBag(pageData.user.user.username)
-    // }, [pageData])
+    // }, [pageData.user])
 
     return (
         <nav className={styles.nav}>

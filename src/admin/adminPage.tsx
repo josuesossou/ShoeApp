@@ -38,7 +38,6 @@ export default function AdminPage({ adminData }: PropsType) {
                         <MainSection />
                     </Grid>
                 </Grid>
-                    
             </SideBarNavContext.Provider>
         </AdminContext.Provider>
     )
